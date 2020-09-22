@@ -10,7 +10,8 @@
 
 ## Wymagania ##
 
- PHP v5.3 lub nowszy.
+ 1. PHP v5.3 lub nowszy.
+ 1. Rozszerzenie `mb_string` (standardowe)
  
 ## Instalacja ##
 
@@ -26,10 +27,22 @@ composer require marcin-orlowski/bank-qrcode-formatter
 $qr = new \MarcinOrlowski\QrcodeFormatter\Builder();
 
 $str = $qr->name('Marcin sp. z o.o.')
-          ->vatId('0000000000')
+          ->vatId('0123456789')
           ->bankAccount('01234567890123456789012345')
           ->country('PL')
           ->title('FV 1234/2020')
           ->amount(140.50)
           ->build();
+
+// zwrócony ciąg znaków ($str) należy następnie użyć z dowolną biblioteką
+// do generowania kodów QR
+createQrcode($str, '/tmp/qrcode.png');
 ```
+
+ **UWAGA:** Bankowe aplikacje mobilne przeprowadzają weryfikacje danych
+ odczytanych z kodu QR, zatem testując niniejszą bibliotekę, należy użyć
+ prawidłowych danych (tj. numer NIP czy numer rachunku bankowego), w
+ przeciwnym razie wygenerowany kod QR zostanie odrzucony przez
+ większość (jeśli nie wszystkie) aplikacje.
+
+
