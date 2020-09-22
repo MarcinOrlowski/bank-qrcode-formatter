@@ -251,7 +251,7 @@ class Builder
 		}
 
 		if (is_float($amount)) {
-			$amount *= 100;
+			$amount = (int)($amount * 100);
 		} elseif (!is_int($amount)) {
 			throw new RuntimeException('Amount must be either float or int');
 		}
@@ -261,7 +261,7 @@ class Builder
 		}
 
 		if ($amount > 999999) {
-			throw new RuntimeException('Amount cannot exceed 9999.99 PLN.');
+			throw new RuntimeException('Amount representation cannot exceed 6 digits. Current value: {$amount}');
 		}
 
 		return $amount;
