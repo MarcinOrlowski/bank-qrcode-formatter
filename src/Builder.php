@@ -43,7 +43,7 @@ class Builder
 	 */
 	public function recipientId($id)
 	{
-		$this->recipient_id = $id;
+		$this->recipient_id = str_replace('-', '', $id);
 
 		return $this;
 	}
@@ -68,7 +68,7 @@ class Builder
 	 */
 	public function account($account)
 	{
-		$this->recipient_account = $account;
+		$this->recipient_account = str_replace(' ', '', $account);
 
 		return $this;
 	}
@@ -89,7 +89,7 @@ class Builder
 	}
 
 	/** @var string */
-	protected $recipient_country_code = '';
+	protected $recipient_country_code = 'PL';
 
 	/**
 	 * @param string $country_code 2 chars, country code (i.e. 'PL'), optional, letters
