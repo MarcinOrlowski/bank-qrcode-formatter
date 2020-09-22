@@ -197,9 +197,9 @@ class Builder
 	 *
 	 * @return $this
 	 */
-	public function paymentTitle($title)
+	public function title($title)
 	{
-		$this->payment_title = $this->validatePaymentTitle($title);
+		$this->payment_title = $this->validateTitle($title);
 
 		return $this;
 	}
@@ -209,7 +209,7 @@ class Builder
 	 *
 	 * @return string
 	 */
-	protected function validatePaymentTitle($title)
+	protected function validateTitle($title)
 	{
 		if (!is_string($title)) {
 			throw new RuntimeException('Payment title must be a string.');
@@ -289,7 +289,7 @@ class Builder
 	 *
 	 * @return $this
 	 */
-	public function paymentId($id)
+	public function refId($id)
 	{
 		return $this->reserved1($id);
 	}
@@ -349,7 +349,7 @@ class Builder
 		$this->validateBankAccount($this->recipient_account);
 		$this->validateName($this->recipient_name);
 		$this->validateVatId($this->vat_id);
-		$this->validatePaymentTitle($this->payment_title);
+		$this->validateTitle($this->payment_title);
 		$this->validateAmount($this->amount);
 
 		// build

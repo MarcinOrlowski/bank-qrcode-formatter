@@ -29,7 +29,7 @@ $str = $qr->name('Marcin sp. z o.o.')
           ->vatId('0000000000')
           ->bankAccount('01234567890123456789012345')
           ->country('PL')
-          ->paymentTitle('FV 1234/2020')
+          ->title('FV 1234/2020')
           ->amount(140.50)
           ->build();
 ```
