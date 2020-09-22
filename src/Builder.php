@@ -2,6 +2,8 @@
 
 namespace MarcinOrlowski\QrcodeFormatter;
 
+use InvalidArgumentException;
+use OutOfRangeException;
 use RuntimeException;
 
 class Builder
@@ -45,8 +47,6 @@ class Builder
 	 * @param string|int|null $vat_id
 	 *
 	 * @return $this
-	 *
-	 * @throws \RuntimeException
 	 */
 	public function vatId($vat_id)
 	{
@@ -59,6 +59,9 @@ class Builder
 	 * @param string|int|null $vat_id
 	 *
 	 * @return string
+	 *
+	 * @throws \InvalidArgumentException
+	 * @throws \RuntimeException
 	 */
 	protected function validateVatId($vat_id)
 	{
@@ -69,7 +72,7 @@ class Builder
 		} elseif (is_int($vat_id)) {
 			$vat_id = (string)$vat_id;
 		} else {
-			throw new RuntimeException('VatId can either be a string, int or null.');
+			throw new InvalidArgumentException('VatId can either be a string, int or null.');
 		}
 
 		if ($this->recipient_type === self::TYPE_COMPANY && $vat_id === '') {
@@ -78,7 +81,7 @@ class Builder
 
 		if ($vat_id !== '') {
 			if (preg_match('/^\d{10}$/', $vat_id) !== 1) {
-				throw new RuntimeException('Invalid VAT ID set. Must be exactly 10 digits long.');
+				throw new InvalidArgumentException('Invalid VAT ID set. Must be exactly 10 digits long.');
 			}
 		}
 
@@ -107,16 +110,18 @@ class Builder
 	 * @param string $account
 	 *
 	 * @return string
+	 *
+	 * @throws \InvalidArgumentException
 	 */
 	protected function validateBankAccount($account)
 	{
 		if (!is_string($account)) {
-			throw new RuntimeException('Account number must be a string.');
+			throw new InvalidArgumentException('Account number must be a string.');
 		}
 		$account = str_replace(' ', '', $account);
 
 		if (preg_match('/^\d{26}$/', $account) !== 1) {
-			throw new RuntimeException('Account number must be 26 digits long.');
+			throw new InvalidArgumentException('Account number must be 26 digits long.');
 		}
 
 		return $account;
@@ -143,11 +148,14 @@ class Builder
 	 * @param string $name
 	 *
 	 * @return string
+	 *
+	 * @throws \InvalidArgumentException
+	 * @throws \RuntimeException
 	 */
 	protected function validateName($name)
 	{
 		if (!is_string($name)) {
-			throw new RuntimeException('Account number must be a string.');
+			throw new InvalidArgumentException('Account number must be a string.');
 		}
 
 		$name = mb_substr($name, 0, 20);
@@ -166,6 +174,8 @@ class Builder
 	 * @param string|null $country_code 2 chars, country code (i.e. 'PL'), optional, letters
 	 *
 	 * @return $this
+	 *
+	 * @throws \InvalidArgumentException
 	 */
 	public function country($country_code)
 	{
@@ -174,13 +184,13 @@ class Builder
 		}
 
 		if (!is_string($country_code)) {
-			throw new RuntimeException('Country code must be a 2 character string.');
+			throw new InvalidArgumentException('Country code must be a 2 character string.');
 		}
 
 		$country_code = mb_strtoupper($country_code);
 		if ($country_code !== '') {
 			if (preg_match('/^[A-Z]{2}$/', $country_code) !== 1) {
-				throw new RuntimeException('Country code must be a 2 character long.');
+				throw new InvalidArgumentException('Country code must be a 2 character long.');
 			}
 		}
 
@@ -208,11 +218,13 @@ class Builder
 	 * @param string $title
 	 *
 	 * @return string
+	 *
+	 * @throws \InvalidArgumentException
 	 */
 	protected function validateTitle($title)
 	{
 		if (!is_string($title)) {
-			throw new RuntimeException('Payment title must be a string.');
+			throw new InvalidArgumentException('Payment title must be a string.');
 		}
 
 		$title = mb_substr(trim($title), 0, 32);
@@ -243,6 +255,10 @@ class Builder
 	 * @param float|int $amount
 	 *
 	 * @return int
+	 *
+	 * @throws \OutOfRangeException
+	 * @throws \InvalidArgumentException
+	 * @throws \RuntimeException
 	 */
 	protected function validateAmount($amount)
 	{
@@ -253,15 +269,15 @@ class Builder
 		if (is_float($amount)) {
 			$amount = (int)($amount * 100);
 		} elseif (!is_int($amount)) {
-			throw new RuntimeException('Amount must be either float or int');
+			throw new InvalidArgumentException('Amount must be either float or int');
 		}
 
 		if ($amount < 0) {
-			throw new RuntimeException('Amount cannot be negative.');
+			throw new InvalidArgumentException('Amount cannot be negative.');
 		}
 
 		if ($amount > 999999) {
-			throw new RuntimeException('Amount representation cannot exceed 6 digits. Current value: {$amount}');
+			throw new OutOfRangeException('Amount representation cannot exceed 6 digits. Current value: {$amount}');
 		}
 
 		return $amount;
@@ -274,9 +290,15 @@ class Builder
 	 * @param string $id 20 chars, reserved i.e. for payment reference id, optional, digits (but we use letters+digits as some banks do too)
 	 *
 	 * @return $this
+	 *
+	 * @throws \InvalidArgumentException
 	 */
 	public function reserved1($id)
 	{
+		if (!is_string($id)) {
+			throw new InvalidArgumentException('Reserved1/RefId value must be a string.');
+		}
+
 		$this->reserved1 = mb_substr((string)$id, 0, 20);
 
 		return $this;
@@ -298,14 +320,20 @@ class Builder
 	protected $reserved2 = '';
 
 	/**
-	 * 12 chars, reserved i.e. for Invobill reference id, optional, digits (but we use letters+digits as some banks do too)
+	 * 12 chars, reserved i.e. for Invobill reference id, optional, digits (but we allow letters+digits as some banks do too)
 	 *
 	 * @param string $id
 	 *
 	 * @return $this
+	 *
+	 * @throws \InvalidArgumentException
 	 */
 	public function reserved2($id)
 	{
+		if (!is_string($id)) {
+			throw new InvalidArgumentException('Reserved2/Invobill value must be a string.');
+		}
+
 		$this->reserved2 = mb_substr((string)$id, 0, 12);
 
 		return $this;
@@ -332,9 +360,15 @@ class Builder
 	 * @param string $id
 	 *
 	 * @return $this
+	 *
+	 * @throws \InvalidArgumentException
 	 */
 	public function reserved3($id)
 	{
+		if (!is_string($id)) {
+			throw new InvalidArgumentException('Reserved3 value must be a string.');
+		}
+
 		$this->reserved3 = mb_substr((string)$id, 0, 24);
 
 		return $this;
@@ -342,6 +376,8 @@ class Builder
 
 	/**
 	 * @return string
+	 *
+	 * @throws \RuntimeException
 	 */
 	public function build()
 	{
