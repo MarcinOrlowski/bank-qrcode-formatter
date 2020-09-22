@@ -45,4 +45,7 @@ createQrcode($str, '/tmp/qrcode.png');
  przeciwnym razie wygenerowany kod QR zostanie odrzucony przez
  większość (jeśli nie wszystkie) aplikacje.
 
+## Licencja ##
 
+ * Written and copyrighted &copy;2020 by Marcin Orlowski <mail (#) marcinorlowski (.) com>
+ * Bank-Qrcode-Formatter is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
