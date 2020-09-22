@@ -96,9 +96,9 @@ class Builder
 	 *
 	 * @return $this
 	 */
-	public function account($account)
+	public function bankAccount($account)
 	{
-		$this->recipient_account = $this->validateAccount($account);
+		$this->recipient_account = $this->validateBankAccount($account);
 
 		return $this;
 	}
@@ -108,7 +108,7 @@ class Builder
 	 *
 	 * @return string
 	 */
-	protected function validateAccount($account)
+	protected function validateBankAccount($account)
 	{
 		if (!is_string($account)) {
 			throw new RuntimeException('Account number must be a string.');
@@ -197,9 +197,9 @@ class Builder
 	 *
 	 * @return $this
 	 */
-	public function title($title)
+	public function paymentTitle($title)
 	{
-		$this->payment_title = $this->validateTitle($title);
+		$this->payment_title = $this->validatePaymentTitle($title);
 
 		return $this;
 	}
@@ -209,7 +209,7 @@ class Builder
 	 *
 	 * @return string
 	 */
-	protected function validateTitle($title)
+	protected function validatePaymentTitle($title)
 	{
 		if (!is_string($title)) {
 			throw new RuntimeException('Payment title must be a string.');
@@ -258,6 +258,10 @@ class Builder
 
 		if ($amount < 0) {
 			throw new RuntimeException('Amount cannot be negative.');
+		}
+
+		if ($amount > 999999) {
+			throw new RuntimeException('Amount cannot exceed 9999.99 PLN.');
 		}
 
 		return $amount;
@@ -342,10 +346,10 @@ class Builder
 	public function build()
 	{
 		// validate
-		$this->validateAccount($this->recipient_account);
-		$this->validateName($this->name());
+		$this->validateBankAccount($this->recipient_account);
+		$this->validateName($this->recipient_name);
 		$this->validateVatId($this->vat_id);
-		$this->validateTitle($this->payment_title);
+		$this->validatePaymentTitle($this->payment_title);
 		$this->validateAmount($this->amount);
 
 		// build
@@ -353,7 +357,7 @@ class Builder
 			$this->vat_id,
 			$this->recipient_country_code,
 			$this->recipient_account,
-			$this->amount,
+			sprintf('%06d', $this->amount),
 			$this->recipient_name,
 			$this->payment_title,
 			$this->reserved1,
