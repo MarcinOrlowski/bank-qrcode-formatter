@@ -32,7 +32,7 @@ script:
 
 after_success:
   # If coverage file is generated then upload it to Codacy. This requires CODACY_PROJECT_TOKEN= var set in projects page
-  # on Travis-CI page (Settings -> Enviroment variables). Codacy token can be obtained from project page on Codacy site,
+  # on Travis-CI page (Settings -> Environment variables). Codacy token can be obtained from project page on Codacy site,
   # by visiting Settings -> Integrations -> Add integration -> Project API. Then Settings and copy the token.
   - bash <(wget -q -O - https://coverage.codacy.com/get.sh) report -l PHP -r /tmp/clover.xml
   # Scrutinizer-CI
