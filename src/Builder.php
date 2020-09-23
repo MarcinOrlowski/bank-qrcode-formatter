@@ -297,8 +297,11 @@ class Builder
 	/** @var string */
 	protected $reserved1 = '';
 
+	/** @var int */
+	const RESERVED1_MAX_LEN = 20;
+
 	/**
-	 * @param string $id 20 chars, reserved i.e. for payment reference id, optional, digits (but we use letters+digits as some banks do too)
+	 * @param string|null $id 20 chars, reserved i.e. for payment reference id, optional, digits (but we use letters+digits as some banks do too)
 	 *
 	 * @return $this
 	 *
@@ -306,12 +309,16 @@ class Builder
 	 */
 	public function reserved1($id)
 	{
+		if ($id === null) {
+			$id = '';
+		}
+
 		if (!is_string($id)) {
 			throw new InvalidArgumentException('Reserved1/RefId value must be a string.');
 		}
 
-		if (mb_strlen($id) > 20) {
-			throw new InvalidArgumentException('Maksymalna długość wartości Reserved1/RefId to 20 znaków.');
+		if (mb_strlen($id) > self::RESERVED1_MAX_LEN) {
+			throw new InvalidArgumentException(sprintf('Maksymalna długość wartości Reserved1/RefId to %d znaków.', self::RESERVED1_MAX_LEN));
 		}
 
 		$this->reserved1 = $id;
@@ -322,7 +329,7 @@ class Builder
 	/**
 	 * Alias for reserved1()
 	 *
-	 * @param string $id
+	 * @param string|null $id
 	 *
 	 * @return $this
 	 */
@@ -334,10 +341,13 @@ class Builder
 	/** @var string */
 	protected $reserved2 = '';
 
+	/** @var int */
+	const RESERVED2_MAX_LEN = 12;
+
 	/**
 	 * 12 chars, reserved i.e. for Invobill reference id, optional, digits (but we allow letters+digits as some banks do too)
 	 *
-	 * @param string $id
+	 * @param string|null $id
 	 *
 	 * @return $this
 	 *
@@ -345,12 +355,16 @@ class Builder
 	 */
 	public function reserved2($id)
 	{
+		if ($id === null) {
+			$id = '';
+		}
+
 		if (!is_string($id)) {
 			throw new InvalidArgumentException('Reserved2/Invobill value must be a string.');
 		}
 
-		if (mb_strlen($id) > 12) {
-			throw new InvalidArgumentException('Maksymalna długość wartości Reserved2/Invobill to 12 znaków.');
+		if (mb_strlen($id) > self::RESERVED2_MAX_LEN) {
+			throw new InvalidArgumentException(sprintf('Maksymalna długość wartości Reserved2/Invobill to %d znaków.', self::RESERVED2_MAX_LEN));
 		}
 
 		$this->reserved2 = $id;
@@ -361,7 +375,7 @@ class Builder
 	/**
 	 * Alias for reserved2()
 	 *
-	 * @param string $id
+	 * @param string|null $id
 	 *
 	 * @return $this
 	 */
@@ -373,10 +387,13 @@ class Builder
 	/** @var string */
 	protected $reserved3 = '';
 
+	/** @var int */
+	const RESERVED3_MAX_LEN = 24;
+
 	/**
 	 * 24 chars, reserved, optional, letters+digits
 	 *
-	 * @param string $id
+	 * @param string|null $id
 	 *
 	 * @return $this
 	 *
@@ -384,12 +401,16 @@ class Builder
 	 */
 	public function reserved3($id)
 	{
+		if ($id === null) {
+			$id = '';
+		}
+
 		if (!is_string($id)) {
 			throw new InvalidArgumentException('Reserved3 value must be a string.');
 		}
 
-		if (mb_strlen($id) > 24) {
-			throw new InvalidArgumentException('Maksymalna długość wartości Reserved2/Invobill to 12 znaków.');
+		if (mb_strlen($id) > self::RESERVED3_MAX_LEN) {
+			throw new InvalidArgumentException(sprintf('Maksymalna długość wartości Reserved3 to %d znaków.', self::RESERVED3_MAX_LEN));
 		}
 
 		$this->reserved3 = $id;
