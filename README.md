@@ -34,20 +34,23 @@ composer require marcin-orlowski/bank-qrcode-formatter
 
 ## Przykład użycia ##
 
-```
+```php
 $str = (new \MarcinOrlowski\QrcodeFormatter\Builder())
           ->name('Marcin sp. z o.o.')
           ->bankAccount('01234567890123456789012345')
           ->title('FV 1234/2020')
           ->amount(140.50)
           ->build();
+```
 
-// zwrócony ciąg znaków ($str) należy następnie użyć z dowolną biblioteką
-// do generowania kodów QR
+Zwrócony ciąg znaków (`$str`) należy następnie użyć z dowolną
+biblioteką do generowania kodów QR:
+
+```php
 createQrcode($str, '/tmp/qrcode.png');
 ```
 
-**UWAGA:** Bankowe aplikacje mobilne przeprowadzają weryfikacje danych  
+**UWAGA:** Bankowe aplikacje mobilne przeprowadzają weryfikacje danych
 odczytanych z kodu QR, zatem testując niniejszą bibliotekę, należy użyć
 prawidłowych danych (tj. numer NIP czy numer rachunku bankowego), w
 przeciwnym razie wygenerowany kod QR zostanie odrzucony przez
