@@ -22,25 +22,27 @@ class NameTest extends TestBase
 	 */
 	public function testName()
 	{
-		$name = $this->getRandomString(null, 20);
+		$name = $this->getRandomString(null, Builder::NAME_MAX_LEN);
 		$b = new Builder();
 		$b->name($name);
 		$this->assertEquals($name, $this->getProtectedMember($b, 'recipient_name'));
 	}
 
 	/**
-	 * Checks if names longer than 20 chars are trimmed.
+	 * Checks if names longer than NAME_MAX_LEN chars are trimmed.
 	 */
 	public function testNameTrim()
 	{
 		$name = $this->getRandomString(null, 32);
 		$b = new Builder();
 		$b->name($name);
-		$this->assertEquals(mb_substr($name, 0, 20), $this->getProtectedMember($b, 'recipient_name'));
+		$this->assertEquals(mb_substr($name, 0, Builder::NAME_MAX_LEN), $this->getProtectedMember($b, 'recipient_name'));
 	}
 
 	/**
 	 * Tests if providing invalid data type as recipient name throws expected exception
+	 *
+	 * @param $id
 	 *
 	 * @dataProvider nameInvalidDataTypeProvider
 	 */
@@ -69,6 +71,17 @@ class NameTest extends TestBase
 		$this->expectException('\RuntimeException');
 		$b = new Builder();
 		$b->name('');
+	}
+
+	/**
+	 * Checks if strict_mode is honoured by name() and throws exception for too long arguments.
+	 */
+	public function testNameStrictMode()
+	{
+		$b = new Builder();
+		$b->strictMode(true);
+		$this->expectException('\InvalidArgumentException');
+		$b->name($this->getRandomAlphaString(Builder::NAME_MAX_LEN+1));
 	}
 
 }

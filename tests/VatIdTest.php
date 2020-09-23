@@ -67,6 +67,8 @@ class VatIdTest extends TestBase
 	/**
 	 * Setting empty VatID for TYPE_COMPANY is not allowed.
 	 *
+	 * @param $vat_id
+	 *
 	 * @dataProvider vatIdInvalidDataEmptyVatForCompanyProvider
 	 */
 	public function testVatIdInvalidDataEmptyVatForCompany($vat_id)
@@ -102,13 +104,15 @@ class VatIdTest extends TestBase
 	}
 
 	/**
+	 * @param $vatId
+	 *
 	 * @dataProvider vatIdInvalidDataInvalidLengthProvider
 	 */
 	public function testVatIdInvalidDataInvalidLength($vatId)
 	{
-		$this->expectException('\InvalidArgumentException');
 		$builder = new Builder(Builder::TYPE_COMPANY);
 
+		$this->expectException('\InvalidArgumentException');
 		$builder->vatId($vatId);
 	}
 
@@ -131,15 +135,16 @@ class VatIdTest extends TestBase
 
 	public function testVatIdInvalidDataInvalidCharacters()
 	{
-		$this->expectException('\InvalidArgumentException');
 		$builder = new Builder(Builder::TYPE_COMPANY);
+		$this->expectException('\InvalidArgumentException');
 		$builder->vatId($this->getRandomString(null, 10));
 	}
 
 	public function testVatIdDataTypeInvalid()
 	{
-		$this->expectException('\InvalidArgumentException');
 		$builder = new Builder(Builder::TYPE_COMPANY);
+		$this->expectException('\InvalidArgumentException');
+		/** @noinspection PhpParamsInspection */
 		$builder->vatId([]);
 	}
 }

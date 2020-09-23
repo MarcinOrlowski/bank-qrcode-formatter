@@ -22,13 +22,18 @@ class ConstructorTest extends TestBase
 	 */
 	public function testConstructor()
 	{
+		$modes = [false,
+		          true];
 		$types = [
 			Builder::TYPE_COMPANY,
 			Builder::TYPE_COMPANY,
 		];
-		foreach ($types as $type) {
-			$builder = new Builder($type);
-			$this->assertEquals($type, $this->getProtectedMember($builder, 'recipient_type'));
+		foreach ($modes as $mode) {
+			foreach ($types as $type) {
+				$builder = new Builder($type, $mode);
+				$this->assertEquals($type, $this->getProtectedMember($builder, 'recipient_type'));
+				$this->assertEquals($mode, $this->getProtectedMember($builder, 'strict_mode'));
+			}
 		}
 	}
 

@@ -29,11 +29,11 @@ class TitleTest extends TestBase
 	}
 
 	/**
-	 * Checks if titles longer than 32 chars are trimmed.
+	 * Checks if titles longer than TITLE_MAX_LEN chars are trimmed.
 	 */
 	public function testTitleTrim()
 	{
-		$name = $this->getRandomString(null, 32);
+		$name = $this->getRandomString(null, Builder::TITLE_MAX_LEN);
 		$name .= $name;
 		$b = new Builder();
 		$b->title($name);
@@ -43,12 +43,14 @@ class TitleTest extends TestBase
 	/**
 	 * Tests if providing invalid data type as recipient name throws expected exception
 	 *
+	 * @param $id
+	 *
 	 * @dataProvider titleInvalidDataTypeProvider
 	 */
 	public function testTitleInvalidDataType($id)
 	{
-		$this->expectException('\InvalidArgumentException');
 		$b = new Builder();
+		$this->expectException('\InvalidArgumentException');
 		$b->title($id);
 	}
 
@@ -67,9 +69,19 @@ class TitleTest extends TestBase
 	 */
 	public function testNameEmpty()
 	{
-		$this->expectException('\RuntimeException');
 		$b = new Builder();
+		$this->expectException('\RuntimeException');
 		$b->title('');
 	}
 
+	/**
+	 * Checks if strict_mode is honoured by title() and throws exception for too long arguments.
+	 */
+	public function testTitleStrictMode()
+	{
+		$b = new Builder();
+		$b->strictMode(true);
+		$this->expectException('\InvalidArgumentException');
+		$b->title($this->getRandomAlphaString(Builder::TITLE_MAX_LEN+1));
+	}
 }

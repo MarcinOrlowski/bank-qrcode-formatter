@@ -3,14 +3,15 @@
 
  Biblioteka formatująca dane dot. przelewu bankowego pod kątem generowania 
  kodów QR rozpoznawanych przez np. aplikacje mobilne banków operujących na rynku
- polskim. Wynikiem działania biblioteki jest ciąg znaków (string) sformatowany
- zgodnie z rekomendacją [Związku Banków Polskich](https://zbp.pl/public/repozytorium/dla_bankow/rady_i_komitety/bankowosc_elektroczniczna/rada_bankowosc_elektr/zadania/2013.12.03_-_Rekomendacja_-_Standard_2D.pdf
-), który następnie należy użyć do wygenerowania kodu QR (używając dowolnej
- biblioteki do tego przeznaczonej).
+ polskim (np. mBank, Inteligo). Wynikiem działania biblioteki jest ciąg znaków
+ (string) sformatowany zgodnie z rekomendacją dot. kodów 2D opublikowaną przez
+ [Związek Banków Polskich](https://zbp.pl/public/repozytorium/dla_bankow/rady_i_komitety/bankowosc_elektroczniczna/rada_bankowosc_elektr/zadania/2013.12.03_-_Rekomendacja_-_Standard_2D.pdf
+). Otrzymany ciąg znaków należy użyć do wygenerowania kodu QR, używając 
+ do tego dowolnej biblioteki do tego przeznaczonej.
 
 ## Wymagania ##
 
- 1. PHP v5.3 lub nowszy.
+ 1. PHP v5.4+
  1. Rozszerzenie `mbstring`
  
 ## Instalacja ##
@@ -44,6 +45,61 @@ createQrcode($str, '/tmp/qrcode.png');
  prawidłowych danych (tj. numer NIP czy numer rachunku bankowego), w
  przeciwnym razie wygenerowany kod QR zostanie odrzucony przez
  większość (jeśli nie wszystkie) aplikacje.
+ 
+## API ##
+
+ ### Utworzenie instancji ###
+
+ * `public function __construct($type, $strict_mode)`
+    * `$type` (`int`): typ odbiorcy płatności. Dozwolone wartości to `Builder::TYPE_PERSON` (jeśli odbiorcą jest osoba fizyczna) 
+    lub `Builder::TYPE_COMPANY` jeśli odbiorcą jest firma. Argument opcjonalny (domyślna wartość `Builder::TYPE_PERSON`).
+    * `$strict_mode` (`bool`): kontroluje try `strict_mode` (patrz `strict_mode()`). Domyślnie `false`.
+
+ ### Ustawianie parametrów dot. płatności ###
+ 
+ Metody oznaczone **(wymagane)** dotyczą ustawiania wymaganych parametrów płatności i muszą zostać wywołane przed wywołaniem
+ `build()`. Wszystkie metody zwracają `$this`, co pozwala łączyć ich wywołania łańcuchowo.
+ 
+ * `public function vatId($vat_id)`: numer podatkowy (NIP) odbiorcy płatności. Podanie NIP-u jest wymagane dla odbiorcy
+    korporacyjnego (`TYPE_COMPANY`). dla odbiorców będących osobami fizycznymi podanie NIP nie jest wymagane.
+    - `$vat_id` (`string`|`int`|`null`): numer podatkowy odbiorcy (8 cyfr). Podanie `null` kasuje wprowadzoną wcześniej wartość.
+ * `public function bankAccount($account)` **(wymagane)**: docelowy numer rachunku bankowego odbiorcy płatności.
+    - `$account` (`string`) - numer rachunku bankowego (26 cyfr). Dozwolone jest także używanie znaków spacji oddzielających
+    poszczególne cyfry numer lub ich grupy (zostaną one usunięte).
+ * `public function name($name)` **(wymagane)**: nazwa odbiorcy płatności.
+    - `$name` (`string`): maksymalna długość to 20 znaków (jeśli podany ciąg jest dłuższy, zostanie automatycznie skrócony, jeśli
+    tryb `strict_mode` nie jest aktywny, w przeciwnym razie wystąpi `InvalidArgumentException`).
+ * `public function country($code)`: dwuliterowy kod kraju odbiorcy płatności.
+    - `$code` (`string`|`null`): dwuliterowy kod kraju odbiorcy płatności (np. `PL`). Podanie `null` kasuje wprowadzoną wcześniej wartość.
+ * `public function title($title)` **(wymagane)**: tytuł/opis płatności
+    - `$title` (`string`): maksymalna długość to 32 znaki (jeśli podany ciąg jest dłuższy, zostanie automatycznie skrócony, jeśli
+    tryb `strict_mode` nie jest aktywny, w przeciwnym razie wystąpi `InvalidArgumentException`).
+ * `public function amount($amount)` **(wymagana)**: kwota płatności wyrażona w groszach (np `1000` to `10,00 PLN`)
+    - `$amount` (`int`|`float`): jeśli podana wartość jest typu `int`, uznana jest za wartość wyrażoną w groszach. Gdy podana wartość
+    jest typu `float`, zostanie uznana za wyrażoną w złotych (grosze w części ułamkowej). Przykładowo: `(int) 1012` oraz `float 10.12`
+    są tożsame. Minimalna dozwolona wartość to `0` która oznacza, iż kwota przelewu musi zostać wprowadzona przez użytkownika 
+    w aplikacji bankowej po zeskanowaniu kodu QR. Maksymalna dozwolona wartość to `999999` dla kwoty podanej jako `int` oraz
+    `9999.99` dla typu `float`. Podanie wartości ujemnej lub przekraczającej maksymalną dozwoloną wartość skutkuje wyjątkiem
+    `OutOfRangeException`.
+ * `public function reserved1($id)` lub `public function refId($id)`: zarezerwowane opcjonalne pole, przeznaczone np. na numer referencyjny
+    płatności etc.
+    `$id` (`string`): ciąg o długości do 20 znaków. Podanie dłuższego ciągu zawsze skutkuje wyjątkiem `InvalidArgumentException`.   
+ * `public function reserved2($id)` lub `public function invobill($id)`: zarezerwowane opcjonalne pole, przeznaczone np. na numer 
+    referencyjny Invobill.
+    - `$id` (`string`): ciąg o długości do 12 znaków. Podanie dłuższego ciągu zawsze skutkuje wyjątkiem `InvalidArgumentException`.
+ * `public function reserved3($id)`: zarezerwowane opcjonalne pole 
+    - `$id` (`string`): ciąg o długości do 24 znaków. Podanie dłuższego ciągu zawsze skutkuje wyjątkiem `InvalidArgumentException`.
+
+ ### Wygenerowanie sformatowanego ciągu ###
+
+ * `public function build()`: generuje sformatowany ciąg znaków odpowiadający ustawionym parametrom płatności. Zwracana
+    wartość jest typu `string` i nie przekracza `160` znaków
+    
+ ### Funkcje dodatkowe ###
+ 
+ * `public function strictMode($mode)`: kontroluje działanie trybu `strict_mode`. Metody, które automatycznie akceptują
+   i skracają argumenty typu (`string`) przekraczające maksymalną dozwoloną długość (np. `title()`), w trybie `strict_mode`
+   będą rzucały wyjątek `InvalidArgumentException`.
 
 ## Licencja ##
 

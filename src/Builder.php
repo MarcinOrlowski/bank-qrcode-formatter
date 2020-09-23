@@ -29,21 +29,41 @@ class Builder
 	protected $separator = '|';
 
 	/** @var int Maks. allowed length of result string */
-	protected $max_length = 160;
+	const MAX_LEN = 160;
 
 
 	/**
 	 * Builder constructor.
 	 *
-	 * @param int $recipient_type
+	 * @param int  $recipient_type
+	 * @param bool $strict_mode
 	 */
-	public function __construct($recipient_type = self::TYPE_PERSON)
+	public function __construct($recipient_type = self::TYPE_PERSON, $strict_mode = false)
 	{
 		if ($recipient_type !== self::TYPE_COMPANY && $recipient_type !== self::TYPE_PERSON) {
 			throw new RuntimeException('Invalid recipient type specified.');
 		}
 
 		$this->recipient_type = $recipient_type;
+		$this->strictMode($strict_mode);
+	}
+
+	/** @var bool */
+	protected $strict_mode = false;
+
+	/**
+	 * Controls strict mode. When mode is disabled (default) some methods may trim down string arguments
+	 * exceeding max allowed length. With strict mode on, such case would throw InvalidArgumentException.
+	 *
+	 * @param bool $mode Set to @true to enable strict mode, @false (default) otherwise.
+	 */
+	public function strictMode($mode)
+	{
+		if (!is_bool($mode)) {
+			throw new InvalidArgumentException('Mode argument must be a boolean.');
+		}
+
+		$this->strict_mode = (bool)$mode;
 	}
 
 	/** @var int */
@@ -141,6 +161,9 @@ class Builder
 	/** @var string 20 chars max, recipient name, mandatory */
 	protected $recipient_name = '';
 
+	/** @var int */
+	const NAME_MAX_LEN = 20;
+
 	/**
 	 * Sets recipient name. Up to 20 chars (longer strings are allowed and will be trimmed).
 	 *
@@ -169,7 +192,11 @@ class Builder
 			throw new InvalidArgumentException('Recipient name must be a string.');
 		}
 
-		$name = mb_substr($name, 0, 20);
+		if ($this->strict_mode && mb_strlen($name) > self::NAME_MAX_LEN) {
+			throw new InvalidArgumentException(sprintf('Recipient name must not exceed %d chars.', self::NAME_MAX_LEN));
+		}
+
+		$name = mb_substr($name, 0, self::NAME_MAX_LEN);
 
 		if ($name === '') {
 			throw new RuntimeException('Recipient name cannot be empty.');
@@ -213,6 +240,9 @@ class Builder
 	/** @var string */
 	protected $payment_title = '';
 
+	/** @var int */
+	const TITLE_MAX_LEN = 32;
+
 	/**
 	 * @param string $title 32 chars, payment title, mandatory, letters+digits
 	 *
@@ -238,13 +268,15 @@ class Builder
 			throw new InvalidArgumentException('Payment title must be a string.');
 		}
 
-		$title = mb_substr(trim($title), 0, 32);
+		if ($this->strict_mode && mb_strlen($title) > self::TITLE_MAX_LEN) {
+			throw new InvalidArgumentException(sprintf('Payment title must not exceed %d chars.', self::TITLE_MAX_LEN));
+		}
 
 		if ($title === '') {
 			throw new RuntimeException('Payment title cannot be empty.');
 		}
 
-		return $title;
+		return mb_substr(trim($title), 0, self::TITLE_MAX_LEN);
 	}
 
 	/** @var int|null */
@@ -297,8 +329,11 @@ class Builder
 	/** @var string */
 	protected $reserved1 = '';
 
+	/** @var int */
+	const RESERVED1_MAX_LEN = 20;
+
 	/**
-	 * @param string $id 20 chars, reserved i.e. for payment reference id, optional, digits (but we use letters+digits as some banks do too)
+	 * @param string|null $id 20 chars, reserved i.e. for payment reference id, optional, digits (but we use letters+digits as some banks do too)
 	 *
 	 * @return $this
 	 *
@@ -306,11 +341,19 @@ class Builder
 	 */
 	public function reserved1($id)
 	{
+		if ($id === null) {
+			$id = '';
+		}
+
 		if (!is_string($id)) {
 			throw new InvalidArgumentException('Reserved1/RefId value must be a string.');
 		}
 
-		$this->reserved1 = mb_substr((string)$id, 0, 20);
+		if (mb_strlen($id) > self::RESERVED1_MAX_LEN) {
+			throw new InvalidArgumentException(sprintf('Maksymalna długość wartości Reserved1/RefId to %d znaków.', self::RESERVED1_MAX_LEN));
+		}
+
+		$this->reserved1 = $id;
 
 		return $this;
 	}
@@ -318,7 +361,7 @@ class Builder
 	/**
 	 * Alias for reserved1()
 	 *
-	 * @param string $id
+	 * @param string|null $id
 	 *
 	 * @return $this
 	 */
@@ -330,10 +373,13 @@ class Builder
 	/** @var string */
 	protected $reserved2 = '';
 
+	/** @var int */
+	const RESERVED2_MAX_LEN = 12;
+
 	/**
 	 * 12 chars, reserved i.e. for Invobill reference id, optional, digits (but we allow letters+digits as some banks do too)
 	 *
-	 * @param string $id
+	 * @param string|null $id
 	 *
 	 * @return $this
 	 *
@@ -341,11 +387,19 @@ class Builder
 	 */
 	public function reserved2($id)
 	{
+		if ($id === null) {
+			$id = '';
+		}
+
 		if (!is_string($id)) {
 			throw new InvalidArgumentException('Reserved2/Invobill value must be a string.');
 		}
 
-		$this->reserved2 = mb_substr((string)$id, 0, 12);
+		if (mb_strlen($id) > self::RESERVED2_MAX_LEN) {
+			throw new InvalidArgumentException(sprintf('Maksymalna długość wartości Reserved2/Invobill to %d znaków.', self::RESERVED2_MAX_LEN));
+		}
+
+		$this->reserved2 = $id;
 
 		return $this;
 	}
@@ -353,7 +407,7 @@ class Builder
 	/**
 	 * Alias for reserved2()
 	 *
-	 * @param string $id
+	 * @param string|null $id
 	 *
 	 * @return $this
 	 */
@@ -365,10 +419,13 @@ class Builder
 	/** @var string */
 	protected $reserved3 = '';
 
+	/** @var int */
+	const RESERVED3_MAX_LEN = 24;
+
 	/**
 	 * 24 chars, reserved, optional, letters+digits
 	 *
-	 * @param string $id
+	 * @param string|null $id
 	 *
 	 * @return $this
 	 *
@@ -376,11 +433,19 @@ class Builder
 	 */
 	public function reserved3($id)
 	{
+		if ($id === null) {
+			$id = '';
+		}
+
 		if (!is_string($id)) {
 			throw new InvalidArgumentException('Reserved3 value must be a string.');
 		}
 
-		$this->reserved3 = mb_substr((string)$id, 0, 24);
+		if (mb_strlen($id) > self::RESERVED3_MAX_LEN) {
+			throw new InvalidArgumentException(sprintf('Maksymalna długość wartości Reserved3 to %d znaków.', self::RESERVED3_MAX_LEN));
+		}
+
+		$this->reserved3 = $id;
 
 		return $this;
 	}
@@ -400,7 +465,7 @@ class Builder
 		$this->validateAmount($this->amount);
 
 		// build
-		$fields = array(
+		$fields = [
 			$this->vat_id,
 			$this->country_code,
 			$this->bank_account,
@@ -410,12 +475,12 @@ class Builder
 			$this->reserved1,
 			$this->reserved2,
 			$this->reserved3,
-		);
+		];
 
 		$result = implode($this->separator, $fields);
-		if (mb_strlen($result) > $this->max_length) {
+		if (mb_strlen($result) > self::MAX_LEN) {
 			throw new RuntimeException(
-				sprintf('Oops, this should not happen! Result string is %d chars long (max allowed %d). Please report this!', mb_strlen($result), $this->max_length));
+				sprintf('Oops, this should not happen! Result string is %d chars long (max allowed %d). Please report this!', mb_strlen($result), self::MAX_LEN));
 		}
 
 		return $result;
