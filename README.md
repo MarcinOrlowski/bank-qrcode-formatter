@@ -74,13 +74,15 @@ Metody oznaczone **(wymagane)** dotyczą ustawiania wymaganych parametrów płat
    * `$account` (`string`) - numer rachunku bankowego (26 cyfr). Dozwolone jest także używanie znaków spacji oddzielających
    poszczególne cyfry numer lub ich grupy (zostaną one usunięte).
  * `public function name($name)` **(wymagane)**: nazwa odbiorcy płatności.
-   * `$name` (`string`): maksymalna długość to 20 znaków (jeśli podany ciąg jest dłuższy, zostanie automatycznie skrócony, jeśli
-   tryb `strict_mode` nie jest aktywny, w przeciwnym razie wystąpi `InvalidArgumentException`).
+   * `$name` (`string`): maksymalna długość to 20 znaków. Widące i zamykające spacje są automatycznie usuwane (`trim()`).
+   Jeśli wynikowy ciąg jest dłuższy niż dozwolony, zostanie automatycznie skrócony o ile tryb `strict_mode` nie jest aktywny,
+   w przeciwnym razie wystąpi `InvalidArgumentException`.
  * `public function country($code)`: dwuliterowy kod kraju odbiorcy płatności.
    * `$code` (`string`|`null`): dwuliterowy kod kraju odbiorcy płatności (np. `PL`). Podanie `null` kasuje wprowadzoną wcześniej wartość.
  * `public function title($title)` **(wymagane)**: tytuł/opis płatności.
-   * `$title` (`string`): maksymalna długość to 32 znaki (jeśli podany ciąg jest dłuższy, zostanie automatycznie skrócony, jeśli
-   tryb `strict_mode` nie jest aktywny, w przeciwnym razie wystąpi `InvalidArgumentException`).
+   * `$title` (`string`): maksymalna długość to 32 znaki. Wiodące i zamykające spacje są automatycznie usuwane.
+   Jeśli wynikowy ciąg jest dłuższy niż dozwolony, zostanie automatycznie skrócony o ile tryb `strict_mode` nie jest aktywny,
+   w przeciwnym razie wystąpi `InvalidArgumentException`.
  * `public function amount($amount)` **(wymagana)**: kwota płatności wyrażona w groszach (np `1000` to `10,00 PLN`)
    * `$amount` (`int`|`float`): jeśli podana wartość jest typu `int`, uznana jest za wartość wyrażoną w groszach. Gdy podana wartość
    jest typu `float`, zostanie uznana za wyrażoną w złotych (grosze w części ułamkowej). Przykładowo: `(int) 1012` oraz `float 10.12`

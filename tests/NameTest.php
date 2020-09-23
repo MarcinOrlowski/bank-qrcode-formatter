@@ -31,12 +31,23 @@ class NameTest extends TestBase
 	/**
 	 * Checks if names longer than NAME_MAX_LEN chars are trimmed.
 	 */
-	public function testNameTrim()
+	public function testNameTrimTooLong()
 	{
 		$name = $this->getRandomString(null, 32);
 		$b = new Builder();
 		$b->name($name);
 		$this->assertEquals(mb_substr($name, 0, Builder::NAME_MAX_LEN), $this->getProtectedMember($b, 'recipient_name'));
+	}
+
+	/**
+	 * Checks if surrounding spaces are correctly trimmed from name.
+	 */
+	public function testNameTrimSpaces()
+	{
+		$name = str_repeat(' ', mt_rand(1, 10)) . $this->getRandomAlphaString(Builder::NAME_MAX_LEN) . str_repeat(' ', mt_rand(1, 10));
+		$b = new Builder();
+		$b->name($name);
+		$this->assertEquals(trim($name), $this->getProtectedMember($b, 'recipient_name'));
 	}
 
 	/**
@@ -81,7 +92,7 @@ class NameTest extends TestBase
 		$b = new Builder();
 		$b->strictMode(true);
 		$this->expectException(\InvalidArgumentException::class);
-		$b->name($this->getRandomAlphaString(Builder::NAME_MAX_LEN+1));
+		$b->name($this->getRandomAlphaString(Builder::NAME_MAX_LEN + 1));
 	}
 
 }

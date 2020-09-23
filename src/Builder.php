@@ -196,7 +196,7 @@ class Builder
 			throw new InvalidArgumentException(sprintf('Recipient name must not exceed %d chars.', self::NAME_MAX_LEN));
 		}
 
-		$name = mb_substr($name, 0, self::NAME_MAX_LEN);
+		$name = mb_substr(trim($name), 0, self::NAME_MAX_LEN);
 
 		if ($name === '') {
 			throw new RuntimeException('Recipient name cannot be empty.');
