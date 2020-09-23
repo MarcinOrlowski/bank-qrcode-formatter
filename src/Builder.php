@@ -106,14 +106,14 @@ class Builder
 			throw new InvalidArgumentException('VatId can either be a string, int or null.');
 		}
 
-		if ($this->recipient_type === self::TYPE_COMPANY && $vat_id === '') {
-			throw new RuntimeException('Company recipient must have VAT ID set.');
-		}
-
 		if ($vat_id !== '') {
 			if (preg_match('/^\d{10}$/', $vat_id) !== 1) {
 				throw new InvalidArgumentException("Invalid VAT ID set. Must be contain 10 chars, digits only. '{$vat_id}' provided.");
 			}
+		}
+
+		if ($this->recipient_type === self::TYPE_COMPANY && $vat_id === '') {
+			throw new RuntimeException('Company recipient must have VAT ID set.');
 		}
 
 		return $vat_id;
