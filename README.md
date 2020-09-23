@@ -13,8 +13,13 @@ do tego dowolnej biblioteki do tego przeznaczonej.
 [![Code Quality](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/?branch=master)
 [![Codacy Grade Badge](https://api.codacy.com/project/badge/Grade/2cb056aba92b417981bd1f99a38352f3)](https://www.codacy.com/app/MarcinOrlowski/bank-qrcode-formatter)
-[![Code Intelligence Status](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
 [![License](https://poser.pugx.org/marcin-orlowski/bank-qrcode-formatter/license)](https://packagist.org/packages/marcin-orlowski/bank-qrcode-formatter)
+
+[![Unstable Version](https://poser.pugx.org/marcin-orlowski/bank-qrcode-formatter/v/unstable)](https://packagist.org/packages/marcin-orlowski/bank-qrcode-formatter)
+[![DEV Build Status](https://travis-ci.org/MarcinOrlowski/bank-qrcode-formatter.svg?branch=dev)](https://travis-ci.org/MarcinOrlowski/bank-qrcode-formatter)
+[![Code Quality](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/badges/quality-score.png?b=dev)](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/?branch=dev)
+[![Code Coverage](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/badges/coverage.png?b=dev)](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/?branch=dev)
+[![Codacy Grade Badge](https://api.codacy.com/project/badge/Grade/2cb056aba92b417981bd1f99a38352f3)](https://www.codacy.com/app/MarcinOrlowski/bank-qrcode-formatter)
 
 ## Wymagania ##
 
@@ -27,17 +32,12 @@ do tego dowolnej biblioteki do tego przeznaczonej.
 composer require marcin-orlowski/bank-qrcode-formatter
 ```
 
-## Użycie ##
+## Przykład użycia ##
 
 ```
-<?php
-
-$qr = new \MarcinOrlowski\QrcodeFormatter\Builder();
-
-$str = $qr->name('Marcin sp. z o.o.')
-          ->vatId('0123456789')
+$str = (new \MarcinOrlowski\QrcodeFormatter\Builder())
+          ->name('Marcin sp. z o.o.')
           ->bankAccount('01234567890123456789012345')
-          ->country('PL')
           ->title('FV 1234/2020')
           ->amount(140.50)
           ->build();
@@ -74,13 +74,15 @@ Metody oznaczone **(wymagane)** dotyczą ustawiania wymaganych parametrów płat
    * `$account` (`string`) - numer rachunku bankowego (26 cyfr). Dozwolone jest także używanie znaków spacji oddzielających
    poszczególne cyfry numer lub ich grupy (zostaną one usunięte).
  * `public function name($name)` **(wymagane)**: nazwa odbiorcy płatności.
-   * `$name` (`string`): maksymalna długość to 20 znaków (jeśli podany ciąg jest dłuższy, zostanie automatycznie skrócony, jeśli
-   tryb `strict_mode` nie jest aktywny, w przeciwnym razie wystąpi `InvalidArgumentException`).
+   * `$name` (`string`): maksymalna długość to 20 znaków. Widące i zamykające spacje są automatycznie usuwane (`trim()`).
+   Jeśli wynikowy ciąg jest dłuższy niż dozwolony, zostanie automatycznie skrócony o ile tryb `strict_mode` nie jest aktywny,
+   w przeciwnym razie wystąpi `InvalidArgumentException`.
  * `public function country($code)`: dwuliterowy kod kraju odbiorcy płatności.
    * `$code` (`string`|`null`): dwuliterowy kod kraju odbiorcy płatności (np. `PL`). Podanie `null` kasuje wprowadzoną wcześniej wartość.
  * `public function title($title)` **(wymagane)**: tytuł/opis płatności.
-   * `$title` (`string`): maksymalna długość to 32 znaki (jeśli podany ciąg jest dłuższy, zostanie automatycznie skrócony, jeśli
-   tryb `strict_mode` nie jest aktywny, w przeciwnym razie wystąpi `InvalidArgumentException`).
+   * `$title` (`string`): maksymalna długość to 32 znaki. Wiodące i zamykające spacje są automatycznie usuwane.
+   Jeśli wynikowy ciąg jest dłuższy niż dozwolony, zostanie automatycznie skrócony o ile tryb `strict_mode` nie jest aktywny,
+   w przeciwnym razie wystąpi `InvalidArgumentException`.
  * `public function amount($amount)` **(wymagana)**: kwota płatności wyrażona w groszach (np `1000` to `10,00 PLN`)
    * `$amount` (`int`|`float`): jeśli podana wartość jest typu `int`, uznana jest za wartość wyrażoną w groszach. Gdy podana wartość
    jest typu `float`, zostanie uznana za wyrażoną w złotych (grosze w części ułamkowej). Przykładowo: `(int) 1012` oraz `float 10.12`
@@ -91,8 +93,8 @@ Metody oznaczone **(wymagane)** dotyczą ustawiania wymaganych parametrów płat
  * `public function reserved1($id)` lub `public function refId($id)`: zarezerwowane opcjonalne pole, przeznaczone np. na numer referencyjny
    płatności etc.
    * `$id` (`string`): ciąg o długości do 20 znaków. Podanie dłuższego ciągu zawsze skutkuje wyjątkiem `InvalidArgumentException`.
- * `public function reserved2($id)` lub `public function invobill($id)`: zarezerwowane opcjonalne pole, przeznaczone np. na numer
-   referencyjny Invobill.
+ * `public function reserved2($id)`: zarezerwowane opcjonalne pole, przeznaczone pierwotnie np. na numer referencyjny usługi
+   Invobill (aka Invoobil, Qlips, QUIK etc).
    * `$id` (`string`): ciąg o długości do 12 znaków. Podanie dłuższego ciągu zawsze skutkuje wyjątkiem `InvalidArgumentException`.
  * `public function reserved3($id)`: zarezerwowane opcjonalne pole
    * `$id` (`string`): ciąg o długości do 24 znaków. Podanie dłuższego ciągu zawsze skutkuje wyjątkiem `InvalidArgumentException`.
@@ -105,8 +107,8 @@ Metody oznaczone **(wymagane)** dotyczą ustawiania wymaganych parametrów płat
 ## Metody dodatkowe ##
 
  * `public function strictMode($mode)`: kontroluje działanie trybu `strict_mode`. Metody, które automatycznie akceptują
-   i skracają argumenty typu (`string`) przekraczające maksymalną dozwoloną długość (np. `title()`), w trybie `strict_mode`
-   będą rzucały wyjątek `InvalidArgumentException`.
+   i skracają argumenty typu (`string`) przekraczające maksymalną dozwoloną długość (np. `title()`), działając w trybie
+   `strict_mode` będą zamiast przycinać, przerywały rzucając `InvalidArgumentException`.
 
 # Licencja #
 

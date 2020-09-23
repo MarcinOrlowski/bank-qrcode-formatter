@@ -31,13 +31,24 @@ class TitleTest extends TestBase
 	/**
 	 * Checks if titles longer than TITLE_MAX_LEN chars are trimmed.
 	 */
-	public function testTitleTrim()
+	public function testTitleTooLongTrim()
 	{
 		$name = $this->getRandomString(null, Builder::TITLE_MAX_LEN);
 		$name .= $name;
 		$b = new Builder();
 		$b->title($name);
 		$this->assertEquals(mb_substr($name, 0, 32), $this->getProtectedMember($b, 'payment_title'));
+	}
+
+	/**
+	 * Checks if surrounding spaces are correctly trimmed from payment title.
+	 */
+	public function testNameTrimSpaces()
+	{
+		$title = str_repeat(' ', mt_rand(1, 10)) . $this->getRandomAlphaString(Builder::TITLE_MAX_LEN) . str_repeat(' ', mt_rand(1, 10));
+		$b = new Builder();
+		$b->title($title);
+		$this->assertEquals(trim($title), $this->getProtectedMember($b, 'payment_title'));
 	}
 
 	/**
