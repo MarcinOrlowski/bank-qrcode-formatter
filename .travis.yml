@@ -12,25 +12,14 @@
 ##################################################################################
 
 language: php
-dist:
+dist: trusty
+
 php:
   - 5.4
   - 5.6
   - 7.2
   - 7.3
   - 7.4
-
-env:
-  - LARAVEL_VERSION="6.0"
-  - LARAVEL_VERSION="6.2"
-  - LARAVEL_VERSION="6.3"
-  - LARAVEL_VERSION="6.4"
-  - LARAVEL_VERSION="6.5"
-  - LARAVEL_VERSION="6.6"
-  - LARAVEL_VERSION="6.7"
-  - LARAVEL_VERSION="6.8"
-  - LARAVEL_VERSION="7.0"
-  - LARAVEL_VERSION="8.0"
 
 cache:
   directories:
