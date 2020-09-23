@@ -111,8 +111,8 @@ Metody oznaczone **(wymagane)** dotyczą ustawiania wymaganych parametrów płat
 ## Metody dodatkowe ##
 
  * `public function strictMode($mode)`: kontroluje działanie trybu `strict_mode`. Metody, które automatycznie akceptują
-   i skracają argumenty typu (`string`) przekraczające maksymalną dozwoloną długość (np. `title()`), w trybie `strict_mode`
-   będą rzucały wyjątek `InvalidArgumentException`.
+   i skracają argumenty typu (`string`) przekraczające maksymalną dozwoloną długość (np. `title()`), działając w trybie
+   `strict_mode` będą zamiast przycinać, przerywały rzucając `InvalidArgumentException`.
 
 # Licencja #
 
