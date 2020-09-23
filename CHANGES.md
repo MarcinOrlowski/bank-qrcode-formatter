@@ -3,6 +3,7 @@
 * @dev
   * `name()` argument is now `trim()`ed automatically.
   * Removed `invobill()` method. Use `reserved2()` instead.
+  * Corrected some tests.
 
 * v1.3.0 (2020-09-23)
   * Bumped min PHP version to 5.6

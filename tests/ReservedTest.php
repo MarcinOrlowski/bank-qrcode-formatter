@@ -18,18 +18,18 @@ use MarcinOrlowski\QrcodeFormatter\Builder;
 class ReservedTest extends TestBase
 {
 	/**
-	 * Checks if setting valid bank account works.
+	 * Checks if setting valid reserved1 field works.
 	 */
-	public function testReserved()
+	public function testReserved1()
 	{
-		$name = $this->getRandomString(null, 32);
+		$id = $this->getRandomString(null, Builder::RESERVED1_MAX_LEN);
 		$b = new Builder();
-		$b->title($name);
-		$this->assertEquals($name, $this->getProtectedMember($b, 'payment_title'));
+		$b->reserved1($id);
+		$this->assertEquals($id, $this->getProtectedMember($b, 'reserved1'));
 	}
 
 	/**
-	 * Tests if providing invalid data type as reserved1 name throws expected exception
+	 * Tests if providing invalid data type as reserved1 throws expected exception
 	 *
 	 * @param $id
 	 *
@@ -43,7 +43,32 @@ class ReservedTest extends TestBase
 	}
 
 	/**
-	 * Tests if providing invalid data type as reserved2 name throws expected exception
+	 * Checks if setting valid reserved1 field via refId() alias method works.
+	 */
+	public function testRefId()
+	{
+		$id = $this->getRandomString(null, Builder::RESERVED1_MAX_LEN);
+		$b = new Builder();
+		$b->refId($id);
+		$this->assertEquals($id, $this->getProtectedMember($b, 'reserved1'));
+	}
+
+	/**
+	 * Tests if providing invalid data type as reserved1 via refId() alias method throws expected exception
+	 *
+	 * @param $id
+	 *
+	 * @dataProvider reservedInvalidDataTypeProvider
+	 */
+	public function testRefIdInvalidDataType($id)
+	{
+		$b = new Builder();
+		$this->expectException(\InvalidArgumentException::class);
+		$b->refId($id);
+	}
+
+	/**
+	 * Tests if providing invalid data type as reserved2 throws expected exception
 	 *
 	 * @param $id
 	 *
@@ -57,7 +82,7 @@ class ReservedTest extends TestBase
 	}
 
 	/**
-	 * Tests if providing invalid data type as reserved3 name throws expected exception
+	 * Tests if providing invalid data type as reserved3 throws expected exception
 	 *
 	 * @param $id
 	 *
@@ -82,7 +107,7 @@ class ReservedTest extends TestBase
 	/**
 	 * Checks if setting reservedX fields to `null` clears them correctly.
 	 */
-	public function testNameEmpty()
+	public function testReservedXEmpty()
 	{
 		for ($i = 1; $i <= 3; $i++) {
 			$field = "reserved{$i}";
@@ -93,6 +118,9 @@ class ReservedTest extends TestBase
 		}
 	}
 
+	/**
+	 * Checks if passing too long value to reserved1() triggers exception abort.
+	 */
 	public function testReserved1TooLong()
 	{
 		$b = new Builder();
@@ -102,6 +130,9 @@ class ReservedTest extends TestBase
 		$b->reserved1($this->getRandomString(null, $max_len + 1));
 	}
 
+	/**
+	 * Checks if passing too long value to reserved2() triggers exception abort.
+	 */
 	public function testReserved2TooLong()
 	{
 		$b = new Builder();
@@ -111,6 +142,9 @@ class ReservedTest extends TestBase
 		$b->reserved2($this->getRandomString(null, $max_len + 1));
 	}
 
+	/**
+	 * Checks if passing too long value to reserved3() triggers exception abort.
+	 */
 	public function testReserved3TooLong()
 	{
 		$b = new Builder();
