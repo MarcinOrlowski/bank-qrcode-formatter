@@ -137,12 +137,12 @@ class VatIdTest extends TestBase
 	{
 		$builder = new Builder(Builder::TYPE_COMPANY);
 		$this->expectException('\InvalidArgumentException');
-		$builder->vatId($this->getRandomString(null, 10));
+		$builder->vatId($this->getRandomAlphaString(null, 10));
 	}
 
 	public function testVatIdDataTypeInvalid()
 	{
-		$builder = new Builder(Builder::TYPE_COMPANY);
+		$builder = new Builder();
 		$this->expectException('\InvalidArgumentException');
 		/** @noinspection PhpParamsInspection */
 		$builder->vatId([]);
