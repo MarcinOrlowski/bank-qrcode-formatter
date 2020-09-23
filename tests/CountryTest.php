@@ -33,6 +33,8 @@ class CountryTest extends TestBase
 	/**
 	 * Tests if passing invalid, too short or too long code throws expected exception.
 	 *
+	 * @param $code
+	 *
 	 * @dataProvider countryInvalidProvider
 	 */
 	public function testCountryInvalid($code)
@@ -68,6 +70,8 @@ class CountryTest extends TestBase
 
 	/**
 	 * Tests if providing invalid data type as country code throws expected exception
+	 *
+	 * @param $id
 	 *
 	 * @dataProvider countryInvalidDataTypeProvider
 	 */

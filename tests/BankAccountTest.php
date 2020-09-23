@@ -59,12 +59,15 @@ class BankAccountTest extends TestBase
 	/**
 	 * Tests if providing invalid data type as bank account throws expected exception
 	 *
+	 * @param $id
+	 *
 	 * @dataProvider bankAccountInvalidDataProvider
 	 */
 	public function testBankAccountInvalidData($id)
 	{
-		$this->expectException('\InvalidArgumentException');
 		$b = new Builder();
+
+		$this->expectException('\InvalidArgumentException');
 		$b->bankAccount($id);
 	}
 
@@ -79,12 +82,15 @@ class BankAccountTest extends TestBase
 	}
 
 	/**
+	 * @param $id
+	 *
 	 * @dataProvider bankAccountInvalidLengthProvider
 	 */
 	public function testBankAccountInvalidLength($id)
 	{
-		$this->expectException('\InvalidArgumentException');
 		$b = new Builder();
+
+		$this->expectException('\InvalidArgumentException');
 		$b->bankAccount($id);
 	}
 

@@ -34,6 +34,8 @@ class BuildTest extends TestBase
 	/**
 	 * Validates if build() produces expected output.
 	 *
+	 * @param $data
+	 *
 	 * @dataProvider dataProvider
 	 */
 	public function testBuild($data)
@@ -127,12 +129,12 @@ class BuildTest extends TestBase
 	 */
 	public function testBuildResultTooLong()
 	{
-		$this->expectException('\RuntimeException');
 		$b = new Builder(Builder::TYPE_PERSON);
 
 		$this->setProtectedMember($b, 'separator', 'XXX');
 
-		$x = $b->bankAccount('01234567890123456789012345')
+		$this->expectException('\RuntimeException');
+		$b->bankAccount('01234567890123456789012345')
 			->vatId($this->getRandomDigitsString(10))
 			->name($this->getRandomAlphaString(20))
 			->country('PL')

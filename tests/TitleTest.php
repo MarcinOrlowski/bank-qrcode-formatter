@@ -43,12 +43,14 @@ class TitleTest extends TestBase
 	/**
 	 * Tests if providing invalid data type as recipient name throws expected exception
 	 *
+	 * @param $id
+	 *
 	 * @dataProvider titleInvalidDataTypeProvider
 	 */
 	public function testTitleInvalidDataType($id)
 	{
-		$this->expectException('\InvalidArgumentException');
 		$b = new Builder();
+		$this->expectException('\InvalidArgumentException');
 		$b->title($id);
 	}
 
@@ -67,8 +69,8 @@ class TitleTest extends TestBase
 	 */
 	public function testNameEmpty()
 	{
-		$this->expectException('\RuntimeException');
 		$b = new Builder();
+		$this->expectException('\RuntimeException');
 		$b->title('');
 	}
 

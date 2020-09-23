@@ -21,6 +21,10 @@ class AmountTest extends TestBase
 	 * Checks if setting valid amount works.
 	 *
 	 * @dataProvider amountProvider
+	 *
+	 * @param string $amount
+	 *
+	 * @throws \ReflectionException
 	 */
 	public function testAmount($amount)
 	{
@@ -57,6 +61,8 @@ class AmountTest extends TestBase
 	/**
 	 * Checks if passing empty string or null to clear country code works.
 	 *
+	 * @param $amount
+	 *
 	 * @dataProvider amountOutOfBoundProvider
 	 */
 	public function testAmountOutOfBounds($amount)
@@ -76,6 +82,8 @@ class AmountTest extends TestBase
 
 	/**
 	 * Tests if providing invalid data type as amount throws expected exception
+	 *
+	 * @param $id
 	 *
 	 * @dataProvider amountInvalidDataTypeProvider
 	 */

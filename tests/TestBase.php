@@ -104,6 +104,10 @@ abstract class TestBase extends TestCase
 	 */
 	protected function getRandomString($prefix = null, $max_len = 32)
 	{
+		if ($max_len > 64) {
+			throw new \InvalidArgumentException('max_len cannot exceed 64 chars.');
+		}
+
 		if ($prefix === '') {
 			$prefix = null;
 		}
@@ -112,7 +116,10 @@ abstract class TestBase extends TestCase
 			$prefix = "{$prefix}_";
 		}
 
-		return mb_substr($prefix . \md5(uniqid(\mt_rand(), true)), 0, $max_len);
+		$val = \md5(uniqid(\mt_rand(), true));
+		$val .= \md5($val);
+
+		return mb_substr("{$prefix}{$val}", 0, $max_len);
 	}
 
 	protected function getRandomDigitsString($len = 10)

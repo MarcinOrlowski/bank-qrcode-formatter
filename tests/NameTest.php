@@ -42,6 +42,8 @@ class NameTest extends TestBase
 	/**
 	 * Tests if providing invalid data type as recipient name throws expected exception
 	 *
+	 * @param $id
+	 *
 	 * @dataProvider nameInvalidDataTypeProvider
 	 */
 	public function testNameInvalidDataType($id)
