@@ -37,8 +37,8 @@ class ReservedTest extends TestBase
 	 */
 	public function testReserved1InvalidDataType($id)
 	{
-		$this->expectException(\InvalidArgumentException::class);
 		$b = new Builder();
+		$this->expectException(\InvalidArgumentException::class);
 		$b->reserved1($id);
 	}
 
@@ -65,8 +65,8 @@ class ReservedTest extends TestBase
 	 */
 	public function testReserved3InvalidDataType($id)
 	{
-		$this->expectException(\InvalidArgumentException::class);
 		$b = new Builder();
+		$this->expectException(\InvalidArgumentException::class);
 		$b->reserved3($id);
 	}
 
