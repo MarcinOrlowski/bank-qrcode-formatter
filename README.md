@@ -13,14 +13,12 @@ do tego dowolnej biblioteki do tego przeznaczonej.
 [![Code Quality](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/?branch=master)
 [![Codacy Grade Badge](https://api.codacy.com/project/badge/Grade/2cb056aba92b417981bd1f99a38352f3)](https://www.codacy.com/app/MarcinOrlowski/bank-qrcode-formatter)
-[![Code Intelligence Status](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
 [![License](https://poser.pugx.org/marcin-orlowski/bank-qrcode-formatter/license)](https://packagist.org/packages/marcin-orlowski/bank-qrcode-formatter)
 
 [![DEV Build Status](https://travis-ci.org/MarcinOrlowski/bank-qrcode-formatter.svg?branch=dev)](https://travis-ci.org/MarcinOrlowski/bank-qrcode-formatter)
 [![Code Quality](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/badges/quality-score.png?b=dev)](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/?branch=dev)
 [![Code Coverage](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/badges/coverage.png?b=dev)](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/?branch=dev)
 [![Codacy Grade Badge](https://api.codacy.com/project/badge/Grade/2cb056aba92b417981bd1f99a38352f3)](https://www.codacy.com/app/MarcinOrlowski/bank-qrcode-formatter)
-[![Code Intelligence Status](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/badges/code-intelligence.svg?b=dev)](https://scrutinizer-ci.com/code-intelligence)
 
 ## Wymagania ##
 
