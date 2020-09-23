@@ -42,7 +42,7 @@ class ConstructorTest extends TestBase
 	 */
 	public function testConstructorInvalidType()
 	{
-		$this->expectException('\RuntimeException');
+		$this->expectException(\RuntimeException::class);
 		new Builder('foo');
 	}
 }

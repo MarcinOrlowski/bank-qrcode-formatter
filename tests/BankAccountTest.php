@@ -67,7 +67,7 @@ class BankAccountTest extends TestBase
 	{
 		$b = new Builder();
 
-		$this->expectException('\InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		$b->bankAccount($id);
 	}
 
@@ -90,7 +90,7 @@ class BankAccountTest extends TestBase
 	{
 		$b = new Builder();
 
-		$this->expectException('\InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		$b->bankAccount($id);
 	}
 

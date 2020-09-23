@@ -37,7 +37,7 @@ class ReservedTest extends TestBase
 	 */
 	public function testReserved1InvalidDataType($id)
 	{
-		$this->expectException('\InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		$b = new Builder();
 		$b->reserved1($id);
 	}
@@ -51,7 +51,7 @@ class ReservedTest extends TestBase
 	 */
 	public function testReserved2InvalidDataType($id)
 	{
-		$this->expectException('\InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		$b = new Builder();
 		$b->reserved2($id);
 	}
@@ -65,7 +65,7 @@ class ReservedTest extends TestBase
 	 */
 	public function testReserved3InvalidDataType($id)
 	{
-		$this->expectException('\InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		$b = new Builder();
 		$b->reserved3($id);
 	}
@@ -98,7 +98,7 @@ class ReservedTest extends TestBase
 		$b = new Builder();
 		$max_len = $this->getProtectedConstant($b, 'RESERVED1_MAX_LEN');
 
-		$this->expectException('\InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		$b->reserved1($this->getRandomString(null, $max_len + 1));
 	}
 
@@ -107,7 +107,7 @@ class ReservedTest extends TestBase
 		$b = new Builder();
 		$max_len = $this->getProtectedConstant($b, 'RESERVED2_MAX_LEN');
 
-		$this->expectException('\InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		$b->reserved2($this->getRandomString(null, $max_len + 1));
 	}
 
@@ -116,7 +116,7 @@ class ReservedTest extends TestBase
 		$b = new Builder();
 		$max_len = $this->getProtectedConstant($b, 'RESERVED3_MAX_LEN');
 
-		$this->expectException('\InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		$b->reserved3($this->getRandomString(null, $max_len + 1));
 	}
 
