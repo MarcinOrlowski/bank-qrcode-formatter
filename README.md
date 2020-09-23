@@ -12,9 +12,8 @@ do tego dowolnej biblioteki do tego przeznaczonej.
 [![Build Status](https://travis-ci.org/MarcinOrlowski/bank-qrcode-formatter.svg?branch=master)](https://travis-ci.org/MarcinOrlowski/bank-qrcode-formatter)
 [![Code Quality](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/MarcinOrlowski/bank-qrcode-formatter/?branch=master)
-[![Codacy Grade Badge](https://api.codacy.com/project/badge/Grade/44f427e872e2480597bde0242417a2a7)](https://www.codacy.com/app/MarcinOrlowski/bank-qrcode-formatter)
+[![Codacy Grade Badge](https://api.codacy.com/project/badge/Grade/2cb056aba92b417981bd1f99a38352f3)](https://www.codacy.com/app/MarcinOrlowski/bank-qrcode-formatter)
 [![License](https://poser.pugx.org/marcin-orlowski/bank-qrcode-formatter/license)](https://packagist.org/packages/marcin-orlowski/bank-qrcode-formatter)
-
 
 ## Wymagania ##
 
