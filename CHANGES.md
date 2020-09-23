@@ -1,5 +1,10 @@
 ## CHANGELOG ##
 
+* v1.3.0 (2020-09-23)
+  - Bumped min PHP version to 5.6
+  - Added Travis-CI support.
+  - Corrected `testVatIdInvalidDataInvalidCharacters()` test.
+
 * v1.2.0 (2020-09-23)
   - Bumped min PHP version to 5.4
   - Documented library API

@@ -67,8 +67,8 @@ class AmountTest extends TestBase
 	 */
 	public function testAmountOutOfBounds($amount)
 	{
-		$this->expectException('\OutOfRangeException');
 		$b = new Builder();
+		$this->expectException(\OutOfRangeException::class);
 		$b->amount($amount);
 	}
 
@@ -89,8 +89,8 @@ class AmountTest extends TestBase
 	 */
 	public function testAmountInvalidDataType($id)
 	{
-		$this->expectException('\InvalidArgumentException');
 		$b = new Builder();
+		$this->expectException(\InvalidArgumentException::class);
 		$b->amount($id);
 	}
 
@@ -107,8 +107,8 @@ class AmountTest extends TestBase
 	 */
 	public function testAmountNull()
 	{
-		$this->expectException('\RuntimeException');
 		$b = new Builder();
+		$this->expectException(\RuntimeException::class);
 		$b->amount(null);
 	}
 

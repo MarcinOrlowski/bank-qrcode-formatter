@@ -1,4 +1,3 @@
-
 # Bank QR Code formatter #
 
  Biblioteka formatująca dane dot. przelewu bankowego pod kątem generowania 
@@ -8,6 +7,11 @@
  [Związek Banków Polskich](https://zbp.pl/public/repozytorium/dla_bankow/rady_i_komitety/bankowosc_elektroczniczna/rada_bankowosc_elektr/zadania/2013.12.03_-_Rekomendacja_-_Standard_2D.pdf
 ). Otrzymany ciąg znaków należy użyć do wygenerowania kodu QR, używając 
  do tego dowolnej biblioteki do tego przeznaczonej.
+
+ [![Latest Stable Version](https://poser.pugx.org/marcin-orlowski/bank-qrcode-formatter/v/stable)](https://packagist.org/packages/marcin-orlowski/bank-qrcode-formatter)
+ [![Build Status](https://travis-ci.org/MarcinOrlowski/bank-qrcode-formatter.svg?branch=master)](https://travis-ci.org/MarcinOrlowski/bank-qrcode-formatter)
+ [![License](https://poser.pugx.org/marcin-orlowski/bank-qrcode-formatter/license)](https://packagist.org/packages/marcin-orlowski/bank-qrcode-formatter)
+
 
 ## Wymagania ##
 

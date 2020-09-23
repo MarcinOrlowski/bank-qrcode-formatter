@@ -1,0 +1,31 @@
+##################################################################################
+#
+# Bank QrCode Formatter
+#
+# @package   MarcinOrlowski\QrcodeFormatter
+#
+# @author    Marcin Orlowski <mail (#) marcinOrlowski (.) com>
+# @copyright 2020 Marcin Orlowski
+# @license   http://www.opensource.org/licenses/mit-license.php MIT
+# @link      https://github.com/MarcinOrlowski/bank-qrcode-formatter
+#
+##################################################################################
+
+language: php
+dist: trusty
+
+php:
+  - 5.6
+  - 7.2
+  - 7.3
+  - 7.4
+
+cache:
+  directories:
+    - ${HOME}/.composer/cache/files
+
+before_script:
+  - composer install --prefer-dist
+
+script:
+  - vendor/bin/phpunit --configuration phpunit.xml --coverage-clover /tmp/clover.xml

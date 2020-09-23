@@ -50,7 +50,7 @@ class TitleTest extends TestBase
 	public function testTitleInvalidDataType($id)
 	{
 		$b = new Builder();
-		$this->expectException('\InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		$b->title($id);
 	}
 
@@ -70,7 +70,7 @@ class TitleTest extends TestBase
 	public function testNameEmpty()
 	{
 		$b = new Builder();
-		$this->expectException('\RuntimeException');
+		$this->expectException(\RuntimeException::class);
 		$b->title('');
 	}
 
@@ -81,7 +81,7 @@ class TitleTest extends TestBase
 	{
 		$b = new Builder();
 		$b->strictMode(true);
-		$this->expectException('\InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		$b->title($this->getRandomAlphaString(Builder::TITLE_MAX_LEN+1));
 	}
 }

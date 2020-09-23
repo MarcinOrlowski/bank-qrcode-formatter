@@ -36,7 +36,7 @@ class StrictModeTest extends TestBase
 	public function testStrictModeInvalidData($mode)
 	{
 		$b = new Builder();
-		$this->expectException('\InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		$b->strictMode($mode);
 
 	}

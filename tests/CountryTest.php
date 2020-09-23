@@ -39,7 +39,7 @@ class CountryTest extends TestBase
 	 */
 	public function testCountryInvalid($code)
 	{
-		$this->expectException('\InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		$b = new Builder();
 		$b->country($code);
 	}
@@ -77,7 +77,7 @@ class CountryTest extends TestBase
 	 */
 	public function testCountryInvalidDataType($id)
 	{
-		$this->expectException('\InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		$b = new Builder();
 		$b->country($id);
 	}

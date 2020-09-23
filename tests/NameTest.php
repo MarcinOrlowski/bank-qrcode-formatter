@@ -48,7 +48,7 @@ class NameTest extends TestBase
 	 */
 	public function testNameInvalidDataType($id)
 	{
-		$this->expectException('\InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		$b = new Builder();
 		$b->name($id);
 	}
@@ -68,7 +68,7 @@ class NameTest extends TestBase
 	 */
 	public function testNameEmpty()
 	{
-		$this->expectException('\RuntimeException');
+		$this->expectException(\RuntimeException::class);
 		$b = new Builder();
 		$b->name('');
 	}
@@ -80,7 +80,7 @@ class NameTest extends TestBase
 	{
 		$b = new Builder();
 		$b->strictMode(true);
-		$this->expectException('\InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		$b->name($this->getRandomAlphaString(Builder::NAME_MAX_LEN+1));
 	}
 
