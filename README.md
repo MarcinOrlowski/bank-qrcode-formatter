@@ -93,8 +93,8 @@ Metody oznaczone **(wymagane)** dotyczą ustawiania wymaganych parametrów płat
  * `public function reserved1($id)` lub `public function refId($id)`: zarezerwowane opcjonalne pole, przeznaczone np. na numer referencyjny
    płatności etc.
    * `$id` (`string`): ciąg o długości do 20 znaków. Podanie dłuższego ciągu zawsze skutkuje wyjątkiem `InvalidArgumentException`.
- * `public function reserved2($id)` lub `public function invobill($id)`: zarezerwowane opcjonalne pole, przeznaczone np. na numer
-   referencyjny Invobill.
+ * `public function reserved2($id)`: zarezerwowane opcjonalne pole, przeznaczone pierwotnie np. na numer referencyjny usługi
+   Invobill (aka Invoobil, Qlips, QUIK etc).
    * `$id` (`string`): ciąg o długości do 12 znaków. Podanie dłuższego ciągu zawsze skutkuje wyjątkiem `InvalidArgumentException`.
  * `public function reserved3($id)`: zarezerwowane opcjonalne pole
    * `$id` (`string`): ciąg o długości do 24 znaków. Podanie dłuższego ciągu zawsze skutkuje wyjątkiem `InvalidArgumentException`.

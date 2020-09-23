@@ -392,28 +392,16 @@ class Builder
 		}
 
 		if (!is_string($id)) {
-			throw new InvalidArgumentException('Reserved2/Invobill value must be a string.');
+			throw new InvalidArgumentException('Reserved2 value must be a string.');
 		}
 
 		if (mb_strlen($id) > self::RESERVED2_MAX_LEN) {
-			throw new InvalidArgumentException(sprintf('Maksymalna długość wartości Reserved2/Invobill to %d znaków.', self::RESERVED2_MAX_LEN));
+			throw new InvalidArgumentException(sprintf('Maksymalna długość wartości Reserved2 to %d znaków.', self::RESERVED2_MAX_LEN));
 		}
 
 		$this->reserved2 = $id;
 
 		return $this;
-	}
-
-	/**
-	 * Alias for reserved2()
-	 *
-	 * @param string|null $id
-	 *
-	 * @return $this
-	 */
-	public function invobill($id)
-	{
-		return $this->reserved2($id);
 	}
 
 	/** @var string */
