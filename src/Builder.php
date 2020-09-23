@@ -29,7 +29,7 @@ class Builder
 	protected $separator = '|';
 
 	/** @var int Maks. allowed length of result string */
-	protected $max_length = 160;
+	const MAX_LEN = 160;
 
 
 	/**
@@ -141,6 +141,9 @@ class Builder
 	/** @var string 20 chars max, recipient name, mandatory */
 	protected $recipient_name = '';
 
+	/** @var int */
+	const NAME_MAX_LEN = 20;
+
 	/**
 	 * Sets recipient name. Up to 20 chars (longer strings are allowed and will be trimmed).
 	 *
@@ -169,7 +172,7 @@ class Builder
 			throw new InvalidArgumentException('Recipient name must be a string.');
 		}
 
-		$name = mb_substr($name, 0, 20);
+		$name = mb_substr($name, 0, self::NAME_MAX_LEN);
 
 		if ($name === '') {
 			throw new RuntimeException('Recipient name cannot be empty.');
@@ -213,6 +216,9 @@ class Builder
 	/** @var string */
 	protected $payment_title = '';
 
+	/** @var int */
+	const TITLE_MAX_LEN = 32;
+
 	/**
 	 * @param string $title 32 chars, payment title, mandatory, letters+digits
 	 *
@@ -238,7 +244,7 @@ class Builder
 			throw new InvalidArgumentException('Payment title must be a string.');
 		}
 
-		$title = mb_substr(trim($title), 0, 32);
+		$title = mb_substr(trim($title), 0, self::TITLE_MAX_LEN);
 
 		if ($title === '') {
 			throw new RuntimeException('Payment title cannot be empty.');
@@ -446,9 +452,9 @@ class Builder
 		);
 
 		$result = implode($this->separator, $fields);
-		if (mb_strlen($result) > $this->max_length) {
+		if (mb_strlen($result) > self::MAX_LEN) {
 			throw new RuntimeException(
-				sprintf('Oops, this should not happen! Result string is %d chars long (max allowed %d). Please report this!', mb_strlen($result), $this->max_length));
+				sprintf('Oops, this should not happen! Result string is %d chars long (max allowed %d). Please report this!', mb_strlen($result), self::MAX_LEN));
 		}
 
 		return $result;

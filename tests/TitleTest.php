@@ -29,11 +29,11 @@ class TitleTest extends TestBase
 	}
 
 	/**
-	 * Checks if titles longer than 32 chars are trimmed.
+	 * Checks if titles longer than TITLE_MAX_LEN chars are trimmed.
 	 */
 	public function testTitleTrim()
 	{
-		$name = $this->getRandomString(null, 32);
+		$name = $this->getRandomString(null, Builder::TITLE_MAX_LEN);
 		$name .= $name;
 		$b = new Builder();
 		$b->title($name);

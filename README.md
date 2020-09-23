@@ -11,7 +11,7 @@
 
 ## Wymagania ##
 
- 1. PHP v5.3+ (unit testy wymagają PHP 5.4+).
+ 1. PHP v5.4+
  1. Rozszerzenie `mbstring`
  
 ## Instalacja ##
