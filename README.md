@@ -15,7 +15,7 @@
 
 ## Wymagania ##
 
- 1. PHP v5.4+
+ 1. PHP v5.6+
  1. Rozszerzenie `mbstring`
  
 ## Instalacja ##
