@@ -74,4 +74,14 @@ class TitleTest extends TestBase
 		$b->title('');
 	}
 
+	/**
+	 * Checks if strict_mode is honoured by title() and throws exception for too long arguments.
+	 */
+	public function testTitleStrictMode()
+	{
+		$b = new Builder();
+		$b->strictMode(true);
+		$this->expectException('\InvalidArgumentException');
+		$b->title($this->getRandomAlphaString(Builder::TITLE_MAX_LEN+1));
+	}
 }

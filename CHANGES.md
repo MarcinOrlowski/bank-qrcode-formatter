@@ -6,6 +6,7 @@
   - `reservedX()` methods accept `null` now.
   - Calling `reservedX()` with argument exceeding max allowed length, throws `InvalidArgumentException` now.
   - Added tests for `reservedX()` methods too.
+  - Added `strict mode` (off by default) to enforce more strict data verification.
 
 * v1.1.0 (2020-09-23)
   - Added unit tests

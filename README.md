@@ -50,9 +50,10 @@ createQrcode($str, '/tmp/qrcode.png');
 
  ### Utworzenie instancji ###
 
- * `public function __construct($type)`
-    * `$type` (`int`) - typ odbiorcy płatności. Dozwolone wartości to `Builder::TYPE_PERSON` (jeśli odbiorcą jest osoba fizyczna) 
+ * `public function __construct($type, $strict_mode)`
+    * `$type` (`int`): typ odbiorcy płatności. Dozwolone wartości to `Builder::TYPE_PERSON` (jeśli odbiorcą jest osoba fizyczna) 
     lub `Builder::TYPE_COMPANY` jeśli odbiorcą jest firma. Argument opcjonalny (domyślna wartość `Builder::TYPE_PERSON`).
+    * `$strict_mode` (`bool`): kontroluje try `strict_mode` (patrz `strict_mode()`). Domyślnie `false`.
 
  ### Ustawianie parametrów dot. płatności ###
  
@@ -66,11 +67,13 @@ createQrcode($str, '/tmp/qrcode.png');
     - `$account` (`string`) - numer rachunku bankowego (26 cyfr). Dozwolone jest także używanie znaków spacji oddzielających
     poszczególne cyfry numer lub ich grupy (zostaną one usunięte).
  * `public function name($name)` **(wymagane)**: nazwa odbiorcy płatności.
-    - `$name` (`string`): maksymalna długość to 20 znaków (jeśli podany ciąg jest dłuższy, zostanie automatycznie skrócony).
+    - `$name` (`string`): maksymalna długość to 20 znaków (jeśli podany ciąg jest dłuższy, zostanie automatycznie skrócony, jeśli
+    tryb `strict_mode` nie jest aktywny, w przeciwnym razie wystąpi `InvalidArgumentException`).
  * `public function country($code)`: dwuliterowy kod kraju odbiorcy płatności.
     - `$code` (`string`|`null`): dwuliterowy kod kraju odbiorcy płatności (np. `PL`). Podanie `null` kasuje wprowadzoną wcześniej wartość.
  * `public function title($title)` **(wymagane)**: tytuł/opis płatności
-    - `$title` (`string`): maksymalna długość to 32 znaki (jeśli podany ciąg jest dłuższy, zostanie automatycznie skrócony).
+    - `$title` (`string`): maksymalna długość to 32 znaki (jeśli podany ciąg jest dłuższy, zostanie automatycznie skrócony, jeśli
+    tryb `strict_mode` nie jest aktywny, w przeciwnym razie wystąpi `InvalidArgumentException`).
  * `public function amount($amount)` **(wymagana)**: kwota płatności wyrażona w groszach (np `1000` to `10,00 PLN`)
     - `$amount` (`int`|`float`): jeśli podana wartość jest typu `int`, uznana jest za wartość wyrażoną w groszach. Gdy podana wartość
     jest typu `float`, zostanie uznana za wyrażoną w złotych (grosze w części ułamkowej). Przykładowo: `(int) 1012` oraz `float 10.12`
@@ -80,17 +83,23 @@ createQrcode($str, '/tmp/qrcode.png');
     `OutOfRangeException`.
  * `public function reserved1($id)` lub `public function refId($id)`: zarezerwowane opcjonalne pole, przeznaczone np. na numer referencyjny
     płatności etc.
-    `$id` (`string`): ciąg o długości do 20 znaków. Podanie dłuższego ciągu skutkuje wyjątkiem `InvalidArgumentException`.   
+    `$id` (`string`): ciąg o długości do 20 znaków. Podanie dłuższego ciągu zawsze skutkuje wyjątkiem `InvalidArgumentException`.   
  * `public function reserved2($id)` lub `public function invobill($id)`: zarezerwowane opcjonalne pole, przeznaczone np. na numer 
     referencyjny Invobill.
-    - `$id` (`string`): ciąg o długości do 12 znaków. Podanie dłuższego ciągu skutkuje wyjątkiem `InvalidArgumentException`.   
+    - `$id` (`string`): ciąg o długości do 12 znaków. Podanie dłuższego ciągu zawsze skutkuje wyjątkiem `InvalidArgumentException`.
  * `public function reserved3($id)`: zarezerwowane opcjonalne pole 
-    - `$id` (`string`): ciąg o długości do 24 znaków. Podanie dłuższego ciągu skutkuje wyjątkiem `InvalidArgumentException`.   
+    - `$id` (`string`): ciąg o długości do 24 znaków. Podanie dłuższego ciągu zawsze skutkuje wyjątkiem `InvalidArgumentException`.
 
  ### Wygenerowanie sformatowanego ciągu ###
 
  * `public function build()`: generuje sformatowany ciąg znaków odpowiadający ustawionym parametrom płatności. Zwracana
-    wartość jest typu `string` i nie przekracza `160` znaków 
+    wartość jest typu `string` i nie przekracza `160` znaków
+    
+ ### Funkcje dodatkowe ###
+ 
+ * `public function strictMode($mode)`: kontroluje działanie trybu `strict_mode`. Metody, które automatycznie akceptują
+   i skracają argumenty typu (`string`) przekraczające maksymalną dozwoloną długość (np. `title()`), w trybie `strict_mode`
+   będą rzucały wyjątek `InvalidArgumentException`.
 
 ## Licencja ##
 

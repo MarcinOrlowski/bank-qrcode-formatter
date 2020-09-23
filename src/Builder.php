@@ -35,15 +35,35 @@ class Builder
 	/**
 	 * Builder constructor.
 	 *
-	 * @param int $recipient_type
+	 * @param int  $recipient_type
+	 * @param bool $strict_mode
 	 */
-	public function __construct($recipient_type = self::TYPE_PERSON)
+	public function __construct($recipient_type = self::TYPE_PERSON, $strict_mode = false)
 	{
 		if ($recipient_type !== self::TYPE_COMPANY && $recipient_type !== self::TYPE_PERSON) {
 			throw new RuntimeException('Invalid recipient type specified.');
 		}
 
 		$this->recipient_type = $recipient_type;
+		$this->strictMode($strict_mode);
+	}
+
+	/** @var bool */
+	protected $strict_mode = false;
+
+	/**
+	 * Controls strict mode. When mode is disabled (default) some methods may trim down string arguments
+	 * exceeding max allowed length. With strict mode on, such case would throw InvalidArgumentException.
+	 *
+	 * @param bool $mode Set to @true to enable strict mode, @false (default) otherwise.
+	 */
+	public function strictMode($mode)
+	{
+		if (!is_bool($mode)) {
+			throw new InvalidArgumentException('Mode argument must be a boolean.');
+		}
+
+		$this->strict_mode = (bool)$mode;
 	}
 
 	/** @var int */
@@ -172,6 +192,10 @@ class Builder
 			throw new InvalidArgumentException('Recipient name must be a string.');
 		}
 
+		if ($this->strict_mode && mb_strlen($name) > self::NAME_MAX_LEN) {
+			throw new InvalidArgumentException(sprintf('Recipient name must not exceed %d chars.', self::NAME_MAX_LEN));
+		}
+
 		$name = mb_substr($name, 0, self::NAME_MAX_LEN);
 
 		if ($name === '') {
@@ -244,13 +268,15 @@ class Builder
 			throw new InvalidArgumentException('Payment title must be a string.');
 		}
 
-		$title = mb_substr(trim($title), 0, self::TITLE_MAX_LEN);
+		if ($this->strict_mode && mb_strlen($title) > self::TITLE_MAX_LEN) {
+			throw new InvalidArgumentException(sprintf('Payment title must not exceed %d chars.', self::TITLE_MAX_LEN));
+		}
 
 		if ($title === '') {
 			throw new RuntimeException('Payment title cannot be empty.');
 		}
 
-		return $title;
+		return mb_substr(trim($title), 0, self::TITLE_MAX_LEN);
 	}
 
 	/** @var int|null */
@@ -439,7 +465,7 @@ class Builder
 		$this->validateAmount($this->amount);
 
 		// build
-		$fields = array(
+		$fields = [
 			$this->vat_id,
 			$this->country_code,
 			$this->bank_account,
@@ -449,7 +475,7 @@ class Builder
 			$this->reserved1,
 			$this->reserved2,
 			$this->reserved3,
-		);
+		];
 
 		$result = implode($this->separator, $fields);
 		if (mb_strlen($result) > self::MAX_LEN) {

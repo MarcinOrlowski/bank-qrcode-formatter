@@ -73,4 +73,15 @@ class NameTest extends TestBase
 		$b->name('');
 	}
 
+	/**
+	 * Checks if strict_mode is honoured by name() and throws exception for too long arguments.
+	 */
+	public function testNameStrictMode()
+	{
+		$b = new Builder();
+		$b->strictMode(true);
+		$this->expectException('\InvalidArgumentException');
+		$b->name($this->getRandomAlphaString(Builder::NAME_MAX_LEN+1));
+	}
+
 }
