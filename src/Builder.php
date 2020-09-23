@@ -2,6 +2,17 @@
 
 namespace MarcinOrlowski\QrcodeFormatter;
 
+/**
+ * Bank QrCode Formatter
+ *
+ * @package   MarcinOrlowski\QrcodeFormatter
+ *
+ * @author    Marcin Orlowski <mail (#) marcinOrlowski (.) com>
+ * @copyright 2020 Marcin Orlowski
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT
+ * @link      https://github.com/MarcinOrlowski/bank-qrcode-formatter
+ */
+
 use InvalidArgumentException;
 use OutOfRangeException;
 use RuntimeException;
@@ -70,18 +81,18 @@ class Builder
 		} elseif ($vat_id === null) {
 			$vat_id = '';
 		} elseif (is_int($vat_id)) {
-			$vat_id = (string)$vat_id;
+			$vat_id = sprintf('%010d', $vat_id);
 		} else {
 			throw new InvalidArgumentException('VatId can either be a string, int or null.');
 		}
 
 		if ($this->recipient_type === self::TYPE_COMPANY && $vat_id === '') {
-			throw new RuntimeException('Company recipient must provide valid VAT ID set.');
+			throw new RuntimeException('Company recipient must have VAT ID set.');
 		}
 
 		if ($vat_id !== '') {
 			if (preg_match('/^\d{10}$/', $vat_id) !== 1) {
-				throw new InvalidArgumentException('Invalid VAT ID set. Must be exactly 10 digits long.');
+				throw new InvalidArgumentException("Invalid VAT ID set. Must be contain 10 chars, digits only. '{$vat_id}' provided.");
 			}
 		}
 
@@ -89,7 +100,7 @@ class Builder
 	}
 
 	/** @var string Recipient bank account number (26 digits), mandatory */
-	protected $recipient_account = '';
+	protected $bank_account = '';
 
 	/**
 	 * Sets mandatory recipient routing bank account number. Account number must contain 26 digits.
@@ -101,7 +112,7 @@ class Builder
 	 */
 	public function bankAccount($account)
 	{
-		$this->recipient_account = $this->validateBankAccount($account);
+		$this->bank_account = $this->validateBankAccount($account);
 
 		return $this;
 	}
@@ -116,12 +127,12 @@ class Builder
 	protected function validateBankAccount($account)
 	{
 		if (!is_string($account)) {
-			throw new InvalidArgumentException('Account number must be a string.');
+			throw new InvalidArgumentException('Bank account number must be a string.');
 		}
 		$account = str_replace(' ', '', $account);
 
 		if (preg_match('/^\d{26}$/', $account) !== 1) {
-			throw new InvalidArgumentException('Account number must be 26 digits long.');
+			throw new InvalidArgumentException("Bank account number must be 26 chars long, digits only. '{$account}' provided.");
 		}
 
 		return $account;
@@ -155,7 +166,7 @@ class Builder
 	protected function validateName($name)
 	{
 		if (!is_string($name)) {
-			throw new InvalidArgumentException('Account number must be a string.');
+			throw new InvalidArgumentException('Recipient name must be a string.');
 		}
 
 		$name = mb_substr($name, 0, 20);
@@ -168,7 +179,7 @@ class Builder
 	}
 
 	/** @var string 2 chars, country code (i.e. 'PL'), optional, letters */
-	protected $recipient_country_code = '';
+	protected $country_code = '';
 
 	/**
 	 * @param string|null $country_code 2 chars, country code (i.e. 'PL'), optional, letters
@@ -184,17 +195,17 @@ class Builder
 		}
 
 		if (!is_string($country_code)) {
-			throw new InvalidArgumentException('Country code must be a 2 character string.');
+			throw new InvalidArgumentException('Country code must be a string.');
 		}
 
 		$country_code = mb_strtoupper($country_code);
 		if ($country_code !== '') {
 			if (preg_match('/^[A-Z]{2}$/', $country_code) !== 1) {
-				throw new InvalidArgumentException('Country code must be a 2 character long.');
+				throw new InvalidArgumentException("Country code must be a 2 character long, letters only. '{$country_code}' provided.");
 			}
 		}
 
-		$this->recipient_country_code = strtoupper($country_code);
+		$this->country_code = strtoupper($country_code);
 
 		return $this;
 	}
@@ -273,7 +284,7 @@ class Builder
 		}
 
 		if ($amount < 0) {
-			throw new InvalidArgumentException('Amount cannot be negative.');
+			throw new OutOfRangeException('Amount cannot be negative.');
 		}
 
 		if ($amount > 999999) {
@@ -382,7 +393,7 @@ class Builder
 	public function build()
 	{
 		// validate
-		$this->validateBankAccount($this->recipient_account);
+		$this->validateBankAccount($this->bank_account);
 		$this->validateName($this->recipient_name);
 		$this->validateVatId($this->vat_id);
 		$this->validateTitle($this->payment_title);
@@ -391,8 +402,8 @@ class Builder
 		// build
 		$fields = array(
 			$this->vat_id,
-			$this->recipient_country_code,
-			$this->recipient_account,
+			$this->country_code,
+			$this->bank_account,
 			sprintf('%06d', $this->amount),
 			$this->recipient_name,
 			$this->payment_title,
@@ -404,7 +415,7 @@ class Builder
 		$result = implode($this->separator, $fields);
 		if (mb_strlen($result) > $this->max_length) {
 			throw new RuntimeException(
-				sprintf('Oops, this should not happen! Result string exceed %d characters. Please report this!', mb_strlen($result)));
+				sprintf('Oops, this should not happen! Result string is %d chars long (max allowed %d). Please report this!', mb_strlen($result), $this->max_length));
 		}
 
 		return $result;
