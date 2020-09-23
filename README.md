@@ -32,14 +32,11 @@ do tego dowolnej biblioteki do tego przeznaczonej.
 composer require marcin-orlowski/bank-qrcode-formatter
 ```
 
-## Użycie ##
+## Przykład użycia ##
 
 ```
-<?php
-
-$qr = new \MarcinOrlowski\QrcodeFormatter\Builder();
-
-$str = $qr->name('Marcin sp. z o.o.')
+$str = (new \MarcinOrlowski\QrcodeFormatter\Builder())
+          ->name('Marcin sp. z o.o.')
           ->bankAccount('01234567890123456789012345')
           ->title('FV 1234/2020')
           ->amount(140.50)
