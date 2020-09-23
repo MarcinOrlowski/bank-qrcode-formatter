@@ -310,7 +310,11 @@ class Builder
 			throw new InvalidArgumentException('Reserved1/RefId value must be a string.');
 		}
 
-		$this->reserved1 = mb_substr((string)$id, 0, 20);
+		if (mb_strlen($id) > 20) {
+			throw new InvalidArgumentException('Maksymalna długość wartości Reserved1/RefId to 20 znaków.');
+		}
+
+		$this->reserved1 = $id;
 
 		return $this;
 	}
@@ -345,7 +349,11 @@ class Builder
 			throw new InvalidArgumentException('Reserved2/Invobill value must be a string.');
 		}
 
-		$this->reserved2 = mb_substr((string)$id, 0, 12);
+		if (mb_strlen($id) > 12) {
+			throw new InvalidArgumentException('Maksymalna długość wartości Reserved2/Invobill to 12 znaków.');
+		}
+
+		$this->reserved2 = $id;
 
 		return $this;
 	}
@@ -380,7 +388,11 @@ class Builder
 			throw new InvalidArgumentException('Reserved3 value must be a string.');
 		}
 
-		$this->reserved3 = mb_substr((string)$id, 0, 24);
+		if (mb_strlen($id) > 24) {
+			throw new InvalidArgumentException('Maksymalna długość wartości Reserved2/Invobill to 12 znaków.');
+		}
+
+		$this->reserved3 = $id;
 
 		return $this;
 	}
