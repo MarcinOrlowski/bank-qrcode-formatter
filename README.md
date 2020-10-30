@@ -44,11 +44,10 @@ biblioteką do generowania kodów QR:
 createQrcode($str, '/tmp/qrcode.png');
 ```
 
-**UWAGA:** Bankowe aplikacje mobilne przeprowadzają weryfikacje danych
-odczytanych z kodu QR, zatem testując niniejszą bibliotekę, należy użyć
-prawidłowych danych (tj. numer NIP czy numer rachunku bankowego), w
-przeciwnym razie wygenerowany kod QR zostanie odrzucony przez
-większość (jeśli nie wszystkie) aplikacje.
+> ![Uwaga!](img/warning.png) Bankowe aplikacje mobilne przeprowadzają weryfikacje danych odczytanych z kodu QR, zatem
+> testując niniejszą bibliotekę, należy użyć prawidłowych danych (tj. numer NIP czy numer rachunku
+> bankowego), w przeciwnym razie wygenerowany kod QR zostanie odrzucony przez większość (jeśli nie
+> wszystkie) aplikacje. 
 
 # API #
 
