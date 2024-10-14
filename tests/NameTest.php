@@ -79,7 +79,7 @@ class NameTest extends TestBase
 	 */
 	public function testNameEmpty()
 	{
-		$this->expectException(\RuntimeException::class);
+		$this->expectException(\InvalidArgumentException::class);
 		$b = new Builder();
 		$b->name('');
 	}

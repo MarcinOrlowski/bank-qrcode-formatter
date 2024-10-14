@@ -1,5 +1,8 @@
 ## CHANGELOG ##
 
+* v1.4.1 (2024-10-10)
+  * Added global namespace prefix to all the functions and exception classes.
+
 * v1.4.0 (2020-09-23)
   * `name()` argument is now `trim()`ed automatically.
   * Removed `invobill()` method. Use `reserved2()` instead.
