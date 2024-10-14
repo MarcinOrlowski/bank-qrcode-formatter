@@ -2,7 +2,7 @@
   "name": "marcin-orlowski/bank-qrcode-formatter",
   "description": "Builds source string that can be used to generate valid QrCode matching recommendation of Polish banks",
   "homepage": "https://github.com/MarcinOrlowski/bank-qrcode-formatter",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "keywords": [
     "qrcode",
     "bank",
