@@ -112,7 +112,7 @@ class BuildTest extends TestBase
 	 */
 	public function testBuildCompanyNoVat()
 	{
-		$this->expectException(\RuntimeException::class);
+		$this->expectException(\InvalidArgumentException::class);
 		$b = new Builder(Builder::TYPE_COMPANY);
 		$b->bankAccount('01234567890123456789012345')
 			->name('ACME Inc')
@@ -133,7 +133,7 @@ class BuildTest extends TestBase
 
 		$this->setProtectedMember($b, 'separator', 'XXX');
 
-		$this->expectException(\RuntimeException::class);
+		$this->expectException(\InvalidArgumentException::class);
 		$b->bankAccount('01234567890123456789012345')
 			->vatId($this->getRandomDigitsString(10))
 			->name($this->getRandomAlphaString(20))

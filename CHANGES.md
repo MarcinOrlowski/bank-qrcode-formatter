@@ -2,6 +2,7 @@
 
 * v1.4.1 (2024-10-10)
   * Added global namespace prefix to all the functions and exception classes.
+  * Updated link to specification of QR code of Zwiek Banków Polskich.
 
 * v1.4.0 (2020-09-23)
   * `name()` argument is now `trim()`ed automatically.
