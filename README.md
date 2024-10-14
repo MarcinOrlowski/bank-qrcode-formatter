@@ -4,7 +4,7 @@ Biblioteka formatująca dane dot. przelewu bankowego pod kątem generowania
 kodów QR rozpoznawanych przez np. aplikacje mobilne banków operujących na rynku
 polskim (np. mBank, Inteligo). Wynikiem działania biblioteki jest ciąg znaków
 (string) sformatowany zgodnie z rekomendacją dot. kodów 2D opublikowaną przez
-[Związek Banków Polskich](https://zbp.pl/public/repozytorium/dla_bankow/rady_i_komitety/bankowosc_elektroczniczna/rada_bankowosc_elektr/zadania/2013.12.03_-_Rekomendacja_-_Standard_2D.pdf
+[Związek Banków Polskich](https://zbp.pl/getmedia/1d7fef90-d193-4a2d-a1c3-ffdf1b0e0649/2013-12-03_-_Rekomendacja_-_Standard_2D
 ). Otrzymany ciąg znaków należy użyć do wygenerowania kodu QR, używając
 do tego dowolnej biblioteki do tego przeznaczonej.
 
