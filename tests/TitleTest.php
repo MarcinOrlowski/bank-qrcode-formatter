@@ -81,7 +81,7 @@ class TitleTest extends TestBase
 	public function testNameEmpty()
 	{
 		$b = new Builder();
-		$this->expectException(\RuntimeException::class);
+		$this->expectException(\InvalidArgumentException::class);
 		$b->title('');
 	}
 
