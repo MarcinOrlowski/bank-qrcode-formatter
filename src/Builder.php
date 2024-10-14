@@ -92,7 +92,6 @@ class Builder
      * @return string
      *
      * @throws \InvalidArgumentException
-     * @throws \RuntimeException
      */
     protected function validateVatId($vat_id)
     {
@@ -186,7 +185,6 @@ class Builder
      * @return string
      *
      * @throws \InvalidArgumentException
-     * @throws \RuntimeException
      */
     protected function validateName($name)
     {
@@ -306,7 +304,6 @@ class Builder
      *
      * @throws \OutOfRangeException
      * @throws \InvalidArgumentException
-     * @throws \RuntimeException
      */
     protected function validateAmount($amount)
     {
