@@ -1,5 +1,8 @@
 ## CHANGELOG ##
 
+* v1.5.0 (2024-10-15)
+  * Corrected amount handling setting max amount value cap lower than supported. 
+
 * v1.4.1 (2024-10-10)
   * Added global namespace prefix to all the functions and exception classes.
   * Updated link to specification of QR code of Zwiek Banków Polskich.

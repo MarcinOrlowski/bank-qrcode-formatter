@@ -83,8 +83,8 @@ Metody oznaczone **(wymagane)** dotyczą ustawiania wymaganych parametrów płat
    * `$amount` (`int`|`float`): jeśli podana wartość jest typu `int`, uznana jest za wartość wyrażoną w groszach. Gdy podana wartość
    jest typu `float`, zostanie uznana za wyrażoną w złotych (grosze w części ułamkowej). Przykładowo: `(int) 1012` oraz `float 10.12`
    są tożsame. Minimalna dozwolona wartość to `0` która oznacza, iż kwota przelewu musi zostać wprowadzona przez użytkownika
-   w aplikacji bankowej po zeskanowaniu kodu QR. Maksymalna dozwolona wartość to `999999` dla kwoty podanej jako `int` oraz
-   `9999.99` dla typu `float`. Podanie wartości ujemnej lub przekraczającej maksymalną dozwoloną wartość skutkuje wyjątkiem
+   w aplikacji bankowej po zeskanowaniu kodu QR.  `9999999999` dla kwoty podanej jako `int` oraz
+   `99999999.99` dla typu `float`. Podanie wartości ujemnej lub przekraczającej maksymalną dozwoloną wartość skutkuje wyjątkiem
    `OutOfRangeException`.
  * `public function reserved1($id)` lub `public function refId($id)`: zarezerwowane opcjonalne pole, przeznaczone np. na numer referencyjny
    płatności etc.
