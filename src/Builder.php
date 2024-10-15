@@ -8,7 +8,7 @@ namespace MarcinOrlowski\QrcodeFormatter;
  * @package   MarcinOrlowski\QrcodeFormatter
  *
  * @author    Marcin Orlowski <mail (#) marcinOrlowski (.) com>
- * @copyright 2020 Marcin Orlowski
+ * @copyright 2020-2024 Marcin Orlowski
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      https://github.com/MarcinOrlowski/bank-qrcode-formatter
  */
@@ -27,8 +27,11 @@ class Builder
     /** @var string */
     protected $separator = '|';
 
-    /** @var int Maks. allowed length of result string */
+    /** @var int Max allowed length of result string */
     const MAX_LEN = 160;
+
+    /** @var int Max allowed length of amount string representation */
+    const MAX_AMOUNT_LEN = 10;
 
 
     /**
@@ -321,8 +324,12 @@ class Builder
             throw new \OutOfRangeException('Amount cannot be negative.');
         }
 
-        if ($amount > 999999) {
-            throw new \OutOfRangeException('Amount representation cannot exceed 6 digits. Current value: {$amount}');
+        $str_amount = \strval($amount);
+        if (\strlen($str_amount) > static::MAX_AMOUNT_LEN) {
+            throw new \OutOfRangeException(
+                \sprintf('Amount string cannot be longer than %d. Current value: "%s"',
+                    static::MAX_AMOUNT_LEN, $amount)
+            );
         }
 
         return $amount;

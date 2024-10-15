@@ -74,7 +74,7 @@ class VatIdTest extends TestBase
 	public function testVatIdInvalidDataEmptyVatForCompany($vat_id)
 	{
 		$builder = new Builder(Builder::TYPE_COMPANY);
-		$this->expectException(\RuntimeException::class);
+		$this->expectException(\InvalidArgumentException::class);
 		$builder->vatId($vat_id);
 	}
 

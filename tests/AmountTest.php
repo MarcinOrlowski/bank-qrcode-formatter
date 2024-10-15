@@ -74,9 +74,12 @@ class AmountTest extends TestBase
 
 	public function amountOutOfBoundProvider()
 	{
+        $amount_str = '';
+        for($i = 0; $i < Builder::MAX_AMOUNT_LEN + 1; $i++) {
+            $amount_str .= mt_rand(0, 9);
+        }
 		return [
-			[mt_rand(1, 9999) * -1],
-			[999999 + mt_rand(1, 100)],
+            [\floatval($amount_str)],
 		];
 	}
 
