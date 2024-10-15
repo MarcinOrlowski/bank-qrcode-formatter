@@ -108,5 +108,5 @@ Metody oznaczone **(wymagane)** dotyczą ustawiania wymaganych parametrów płat
 
 # Licencja #
 
- * Written and copyrighted &copy;2020 by Marcin Orlowski <mail (#) marcinorlowski (.) com>
+ * Written and copyrighted &copy;2020-2024 by Marcin Orlowski <mail (#) marcinorlowski (.) com>
  * Bank-Qrcode-Formatter is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)

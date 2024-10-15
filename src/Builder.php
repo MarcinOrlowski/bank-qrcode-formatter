@@ -8,7 +8,7 @@ namespace MarcinOrlowski\QrcodeFormatter;
  * @package   MarcinOrlowski\QrcodeFormatter
  *
  * @author    Marcin Orlowski <mail (#) marcinOrlowski (.) com>
- * @copyright 2020 Marcin Orlowski
+ * @copyright 2020-2024 Marcin Orlowski
  * @license   http://www.opensource.org/licenses/mit-license.php MIT
  * @link      https://github.com/MarcinOrlowski/bank-qrcode-formatter
  */
